@@ -1,0 +1,14 @@
+C:\Users\JUDY\source\repos\NewWords\NewWordsRunner\bin\Debug\netcoreapp2.1\NewWordsRunner.deps.json
+C:\Users\JUDY\source\repos\NewWords\NewWordsRunner\bin\Debug\netcoreapp2.1\NewWordsRunner.runtimeconfig.json
+C:\Users\JUDY\source\repos\NewWords\NewWordsRunner\bin\Debug\netcoreapp2.1\NewWordsRunner.runtimeconfig.dev.json
+C:\Users\JUDY\source\repos\NewWords\NewWordsRunner\bin\Debug\netcoreapp2.1\NewWordsRunner.dll
+C:\Users\JUDY\source\repos\NewWords\NewWordsRunner\bin\Debug\netcoreapp2.1\NewWordsRunner.pdb
+C:\Users\JUDY\source\repos\NewWords\NewWordsRunner\obj\Debug\netcoreapp2.1\NewWordsRunner.csprojAssemblyReference.cache
+C:\Users\JUDY\source\repos\NewWords\NewWordsRunner\obj\Debug\netcoreapp2.1\NewWordsRunner.csproj.CoreCompileInputs.cache
+C:\Users\JUDY\source\repos\NewWords\NewWordsRunner\obj\Debug\netcoreapp2.1\NewWordsRunner.AssemblyInfoInputs.cache
+C:\Users\JUDY\source\repos\NewWords\NewWordsRunner\obj\Debug\netcoreapp2.1\NewWordsRunner.AssemblyInfo.cs
+C:\Users\JUDY\source\repos\NewWords\NewWordsRunner\obj\Debug\netcoreapp2.1\NewWordsRunner.dll
+C:\Users\JUDY\source\repos\NewWords\NewWordsRunner\obj\Debug\netcoreapp2.1\NewWordsRunner.pdb
+C:\Users\JUDY\source\repos\NewWords\NewWordsRunner\bin\Debug\netcoreapp2.1\NewWords.Fundation.dll
+C:\Users\JUDY\source\repos\NewWords\NewWordsRunner\bin\Debug\netcoreapp2.1\NewWords.Fundation.pdb
+C:\Users\JUDY\source\repos\NewWords\NewWordsRunner\obj\Debug\netcoreapp2.1\NewWordsRunner.csproj.CopyComplete

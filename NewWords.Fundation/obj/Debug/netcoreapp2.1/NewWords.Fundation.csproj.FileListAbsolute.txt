@@ -1,0 +1,9 @@
+C:\Users\JUDY\source\repos\NewWords\NewWords.Fundation\bin\Debug\netcoreapp2.1\NewWords.Fundation.deps.json
+C:\Users\JUDY\source\repos\NewWords\NewWords.Fundation\bin\Debug\netcoreapp2.1\NewWords.Fundation.dll
+C:\Users\JUDY\source\repos\NewWords\NewWords.Fundation\obj\Debug\netcoreapp2.1\NewWords.Fundation.csproj.CoreCompileInputs.cache
+C:\Users\JUDY\source\repos\NewWords\NewWords.Fundation\obj\Debug\netcoreapp2.1\NewWords.Fundation.AssemblyInfoInputs.cache
+C:\Users\JUDY\source\repos\NewWords\NewWords.Fundation\obj\Debug\netcoreapp2.1\NewWords.Fundation.AssemblyInfo.cs
+C:\Users\JUDY\source\repos\NewWords\NewWords.Fundation\bin\Debug\netcoreapp2.1\NewWords.Fundation.pdb
+C:\Users\JUDY\source\repos\NewWords\NewWords.Fundation\obj\Debug\netcoreapp2.1\NewWords.Fundation.csprojAssemblyReference.cache
+C:\Users\JUDY\source\repos\NewWords\NewWords.Fundation\obj\Debug\netcoreapp2.1\NewWords.Fundation.dll
+C:\Users\JUDY\source\repos\NewWords\NewWords.Fundation\obj\Debug\netcoreapp2.1\NewWords.Fundation.pdb

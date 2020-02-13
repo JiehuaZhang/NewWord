@@ -1,0 +1,1 @@
+{"Word":"Hello","Meaning":"你好 ","Difficulty":1},
