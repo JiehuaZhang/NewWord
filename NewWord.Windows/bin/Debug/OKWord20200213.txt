@@ -1,1 +1,0 @@
-﻿{"Word":"label1","Meaning":"喜欢","Difficulty":4,"Remember":true,"Count":50},{"Word":"label1","Meaning":"很好","Difficulty":1,"Remember":true,"Count":50},{"Word":"Good","Meaning":"很好","Difficulty":1,"Remember":true,"Count":50},
