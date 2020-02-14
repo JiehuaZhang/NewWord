@@ -28,6 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Word_0-10");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Word_10-20");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Word_20-30");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Word_30-40");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Word_40-50");
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCard = new System.Windows.Forms.TabPage();
             this.lblDifficulty = new System.Windows.Forms.Label();
@@ -37,6 +42,7 @@
             this.btnNo = new System.Windows.Forms.Button();
             this.txtWord = new System.Windows.Forms.Label();
             this.tabAdd = new System.Windows.Forms.TabPage();
+            this.btnUpdate = new System.Windows.Forms.Button();
             this.numDifficulty = new System.Windows.Forms.NumericUpDown();
             this.lblRate = new System.Windows.Forms.Label();
             this.txtMeaning = new System.Windows.Forms.TextBox();
@@ -44,11 +50,10 @@
             this.lblNewWord = new System.Windows.Forms.Label();
             this.txtNewWord = new System.Windows.Forms.TextBox();
             this.tabArrange = new System.Windows.Forms.TabPage();
+            this.lblSplit = new System.Windows.Forms.Label();
+            this.btnSplitWords = new System.Windows.Forms.Button();
             this.lblArrange1 = new System.Windows.Forms.Label();
             this.btnArrange1 = new System.Windows.Forms.Button();
-            this.btnUpdate = new System.Windows.Forms.Button();
-            this.btnSplitWords = new System.Windows.Forms.Button();
-            this.lblSplit = new System.Windows.Forms.Label();
             this.tabBooks = new System.Windows.Forms.TabPage();
             this.treeBooks = new System.Windows.Forms.TreeView();
             this.tabControl1.SuspendLayout();
@@ -82,7 +87,7 @@
             this.tabCard.Controls.Add(this.txtWord);
             this.tabCard.Location = new System.Drawing.Point(4, 22);
             this.tabCard.Name = "tabCard";
-            this.tabCard.Padding = new System.Windows.Forms.Padding(3);
+            this.tabCard.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.tabCard.Size = new System.Drawing.Size(254, 190);
             this.tabCard.TabIndex = 0;
             this.tabCard.Text = "Card";
@@ -172,12 +177,26 @@
             this.tabAdd.Controls.Add(this.txtNewWord);
             this.tabAdd.Location = new System.Drawing.Point(4, 22);
             this.tabAdd.Name = "tabAdd";
-            this.tabAdd.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAdd.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.tabAdd.Size = new System.Drawing.Size(254, 190);
             this.tabAdd.TabIndex = 1;
             this.tabAdd.Text = "Add";
             this.tabAdd.UseVisualStyleBackColor = true;
             this.tabAdd.Click += new System.EventHandler(this.TabAdd_Click);
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.BackColor = System.Drawing.Color.MediumPurple;
+            this.btnUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUpdate.ForeColor = System.Drawing.Color.White;
+            this.btnUpdate.Location = new System.Drawing.Point(150, 143);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(75, 32);
+            this.btnUpdate.TabIndex = 8;
+            this.btnUpdate.Text = "Update";
+            this.btnUpdate.UseVisualStyleBackColor = false;
+            this.btnUpdate.Visible = false;
+            this.btnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
             // 
             // numDifficulty
             // 
@@ -249,11 +268,35 @@
             this.tabArrange.Controls.Add(this.btnArrange1);
             this.tabArrange.Location = new System.Drawing.Point(4, 22);
             this.tabArrange.Name = "tabArrange";
-            this.tabArrange.Padding = new System.Windows.Forms.Padding(3);
+            this.tabArrange.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.tabArrange.Size = new System.Drawing.Size(254, 190);
             this.tabArrange.TabIndex = 2;
             this.tabArrange.Text = "Arrange";
             this.tabArrange.UseVisualStyleBackColor = true;
+            // 
+            // lblSplit
+            // 
+            this.lblSplit.AutoSize = true;
+            this.lblSplit.Location = new System.Drawing.Point(37, 110);
+            this.lblSplit.Name = "lblSplit";
+            this.lblSplit.Size = new System.Drawing.Size(36, 13);
+            this.lblSplit.TabIndex = 16;
+            this.lblSplit.Text = "Done!";
+            this.lblSplit.Visible = false;
+            // 
+            // btnSplitWords
+            // 
+            this.btnSplitWords.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnSplitWords.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnSplitWords.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSplitWords.ForeColor = System.Drawing.Color.White;
+            this.btnSplitWords.Location = new System.Drawing.Point(31, 65);
+            this.btnSplitWords.Name = "btnSplitWords";
+            this.btnSplitWords.Size = new System.Drawing.Size(193, 42);
+            this.btnSplitWords.TabIndex = 15;
+            this.btnSplitWords.Text = "Split words";
+            this.btnSplitWords.UseVisualStyleBackColor = false;
+            this.btnSplitWords.Click += new System.EventHandler(this.BtnSplitWords_Click);
             // 
             // lblArrange1
             // 
@@ -279,50 +322,12 @@
             this.btnArrange1.UseVisualStyleBackColor = false;
             this.btnArrange1.Click += new System.EventHandler(this.BtnArrange1_Click);
             // 
-            // btnUpdate
-            // 
-            this.btnUpdate.BackColor = System.Drawing.Color.MediumPurple;
-            this.btnUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUpdate.ForeColor = System.Drawing.Color.White;
-            this.btnUpdate.Location = new System.Drawing.Point(150, 143);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(75, 32);
-            this.btnUpdate.TabIndex = 8;
-            this.btnUpdate.Text = "Update";
-            this.btnUpdate.UseVisualStyleBackColor = false;
-            this.btnUpdate.Visible = false;
-            this.btnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
-            // 
-            // btnSplitWords
-            // 
-            this.btnSplitWords.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnSplitWords.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnSplitWords.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSplitWords.ForeColor = System.Drawing.Color.White;
-            this.btnSplitWords.Location = new System.Drawing.Point(31, 65);
-            this.btnSplitWords.Name = "btnSplitWords";
-            this.btnSplitWords.Size = new System.Drawing.Size(193, 42);
-            this.btnSplitWords.TabIndex = 15;
-            this.btnSplitWords.Text = "Split words";
-            this.btnSplitWords.UseVisualStyleBackColor = false;
-            this.btnSplitWords.Click += new System.EventHandler(this.BtnSplitWords_Click);
-            // 
-            // lblSplit
-            // 
-            this.lblSplit.AutoSize = true;
-            this.lblSplit.Location = new System.Drawing.Point(37, 110);
-            this.lblSplit.Name = "lblSplit";
-            this.lblSplit.Size = new System.Drawing.Size(36, 13);
-            this.lblSplit.TabIndex = 16;
-            this.lblSplit.Text = "Done!";
-            this.lblSplit.Visible = false;
-            // 
             // tabBooks
             // 
             this.tabBooks.Controls.Add(this.treeBooks);
             this.tabBooks.Location = new System.Drawing.Point(4, 22);
             this.tabBooks.Name = "tabBooks";
-            this.tabBooks.Padding = new System.Windows.Forms.Padding(3);
+            this.tabBooks.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.tabBooks.Size = new System.Drawing.Size(254, 190);
             this.tabBooks.TabIndex = 3;
             this.tabBooks.Text = "Book";
@@ -330,9 +335,26 @@
             // 
             // treeBooks
             // 
-            this.treeBooks.Location = new System.Drawing.Point(31, 17);
+            this.treeBooks.Location = new System.Drawing.Point(14, 6);
             this.treeBooks.Name = "treeBooks";
-            this.treeBooks.Size = new System.Drawing.Size(8, 8);
+            treeNode1.Name = "Wordbook1";
+            treeNode1.Text = "Word_0-10";
+            treeNode2.Checked = true;
+            treeNode2.Name = "WordBook2";
+            treeNode2.Text = "Word_10-20";
+            treeNode3.Name = "WordBook3";
+            treeNode3.Text = "Word_20-30";
+            treeNode4.Name = "WordBook4";
+            treeNode4.Text = "Word_30-40";
+            treeNode5.Name = "WordBook5";
+            treeNode5.Text = "Word_40-50";
+            this.treeBooks.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4,
+            treeNode5});
+            this.treeBooks.Size = new System.Drawing.Size(207, 162);
             this.treeBooks.TabIndex = 1;
             // 
             // CombinedWordCard
@@ -344,6 +366,7 @@
             this.Name = "CombinedWordCard";
             this.Text = "CombinedWordCard";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Card_Closing);
+            this.Load += new System.EventHandler(this.WordCard_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabCard.ResumeLayout(false);
             this.tabCard.PerformLayout();

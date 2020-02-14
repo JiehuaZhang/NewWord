@@ -19,21 +19,13 @@ namespace NewWord.Windows
         private int count = 0;
         private Color _rememberColor = Color.CornflowerBlue;
         private Color _forgotColor = Color.DarkViolet;
+
         public CombinedWordCard()
         {
-            GetWordList();
            
-
-            this.TopMost = true;
+            TopMost = true;
             InitializeComponent();
-            if (_words.Count == 0)
-            {
-                NoNewWord();
-            }
-            else
-            {
-                CardBeginning();
-            }
+           
         }
 
         private void SaveWordCard()
@@ -57,7 +49,7 @@ namespace NewWord.Windows
                 txtMeaning.Text = string.Empty;
                 numDifficulty.Value = 4;
                 txtNewWord.Focus();
-            } 
+            }
         }
 
         private void TabAdd_Click(object sender, EventArgs e)
@@ -68,7 +60,7 @@ namespace NewWord.Windows
 
         private void BtnNo_Click(object sender, EventArgs e)
         {
-            if (btnNo.Text == "Previous" && count>0)
+            if (btnNo.Text == "Previous" && count > 0)
             {
                 if (count > 0)
                 {
@@ -133,16 +125,16 @@ namespace NewWord.Windows
 
         private void BtnArrange1_Click(object sender, EventArgs e)
         {
-            var rememberWordsString = JsonConvert.SerializeObject(_words.Where(x => (x.Remember && x.Count >= 50)|| x.Difficulty == 0).ToList()).TrimStart('[').TrimEnd(']');
+            var rememberWordsString = JsonConvert
+                .SerializeObject(_words.Where(x => x.Remember && x.Count >= 50 || x.Difficulty == 0).ToList())
+                .TrimStart('[').TrimEnd(']');
             var rememberWordTextName = "OKWord" + DateTime.Now.Date.ToString("yyyyMMdd") + ".txt";
             if (!File.Exists(rememberWordTextName) && !string.IsNullOrWhiteSpace(rememberWordsString))
-            {
-                using (StreamWriter sw = File.CreateText(rememberWordTextName))
+                using (var sw = File.CreateText(rememberWordTextName))
                 {
                     sw.Write(rememberWordsString + ",");
                 }
-            }
-           
+
             if (!string.IsNullOrWhiteSpace(rememberWordsString))
             {
                 File.AppendAllText(rememberWordTextName, rememberWordsString);
@@ -153,7 +145,7 @@ namespace NewWord.Windows
             else
             {
                 lblArrange1.Visible = true;
-                lblArrange1.Text = "No remember words" + " (at" + DateTime.Now.ToString("HH:mm")+")";
+                lblArrange1.Text = "No remember words" + " (at" + DateTime.Now.ToString("HH:mm") + ")";
             }
         }
 
@@ -170,7 +162,7 @@ namespace NewWord.Windows
         {
             _words[count].Word = txtNewWord.Text;
             _words[count].Meaning = txtMeaning.Text;
-            _words[count].Difficulty = (int)numDifficulty.Value;
+            _words[count].Difficulty = (int) numDifficulty.Value;
             txtNewWord.Text = string.Empty;
             txtMeaning.Text = string.Empty;
             numDifficulty.Value = 4;
@@ -178,20 +170,21 @@ namespace NewWord.Windows
             tabControl1.SelectedTab = tabCard;
             ShowWordCard();
         }
+
         private void BtnSplitWords_Click(object sender, EventArgs e)
         {
             if (_words.Count > 50)
             {
-
             }
             else
             {
-                
             }
+
             lblSplit.Visible = true;
         }
 
         #region Local Function
+
         private void CardBeginning()
         {
             count = 0;
@@ -200,9 +193,9 @@ namespace NewWord.Windows
 
         private void ShowWordCard()
         {
-            txtWord.Text = _words [count].Word;
-            txtWord.ForeColor = _words [count].Remember ? _rememberColor : _forgotColor;
-            lblDifficulty.Text = new string ('*', _words[count].Difficulty);
+            txtWord.Text = _words[count].Word;
+            txtWord.ForeColor = _words[count].Remember ? _rememberColor : _forgotColor;
+            lblDifficulty.Text = new string('*', _words[count].Difficulty);
             lblHidden.Text = _words[count].Meaning;
             btnYes.Visible = true;
             btnYes.Text = "Yes";
@@ -213,6 +206,7 @@ namespace NewWord.Windows
             lblHidden.Visible = false;
             btnNo.Enabled = true;
         }
+
         private void TheEnd()
         {
             btnNo.Visible = false;
@@ -235,6 +229,11 @@ namespace NewWord.Windows
 
         private void GetWordList()
         {
+            //var treeNode = new TreeNode("Word_0-10");
+            //var treeNode2  = new TreeNode("Word_10-20");
+            //treeBooks.Nodes.Add(treeNode);
+            //treeBooks.Nodes.Add(treeNode2);
+           
             var wordstring = File.ReadAllText("Word.txt");
             wordstring = "[" + File.ReadAllText("Word.txt").TrimEnd(',') + "]";
             _words = JsonConvert.DeserializeObject<List<NewWords.Core.Model.WordCard>>(wordstring);
@@ -249,6 +248,37 @@ namespace NewWord.Windows
 
         #endregion
 
+        private void WordCard_Load(object sender, EventArgs e)
+        {
+            var files = GetFiles();
+            List<TreeNode> nodeList = new List<TreeNode>();
+            foreach (var file in files)
+            {
+                nodeList.Add(new TreeNode(file));
+            }
+            ////
+            //// Final node.
+            ////
+            var treeNode = new TreeNode("Books", nodeList.ToArray());
+            treeBooks.Nodes.Add(treeNode);
+            GetWordList();
+            tabControl1.SelectedTab = tabBooks;
+            if (_words.Count == 0)
+                NoNewWord();
+            else
+                CardBeginning();
+        }
 
+        private string[] GetFiles()
+        {
+            var path =Path.GetFullPath(@"Library\Books") ;
+            if (File.Exists(path))
+            {
+                return Directory.GetFiles(path);
+            }
+
+            File.Create(path);
+            return null;
+        }
     }
 }
