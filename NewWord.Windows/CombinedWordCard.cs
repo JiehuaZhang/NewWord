@@ -25,7 +25,8 @@ namespace NewWord.Windows
            
             TopMost = true;
             InitializeComponent();
-           
+            
+
         }
 
         private void SaveWordCard()
@@ -261,8 +262,9 @@ namespace NewWord.Windows
             ////
             var treeNode = new TreeNode("Books", nodeList.ToArray());
             treeBooks.Nodes.Add(treeNode);
-            GetWordList();
+            
             tabControl1.SelectedTab = tabBooks;
+            GetWordList();
             if (_words.Count == 0)
                 NoNewWord();
             else
@@ -272,9 +274,10 @@ namespace NewWord.Windows
         private string[] GetFiles()
         {
             var path =Path.GetFullPath(@"Library\Books") ;
-            if (File.Exists(path))
+            if (Directory.Exists(path))
             {
-                return Directory.GetFiles(path);
+                var info =new DirectoryInfo(path);
+                return info.GetFiles().Select(x => x.Name).ToArray();
             }
 
             File.Create(path);
