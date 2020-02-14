@@ -754,11 +754,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\JUDY\\source\\repos\\NewWords\\NewWordsRunner\\NewWordsRunner.csproj",
+      "projectUniqueName": "C:\\Users\\JUDY\\Documents\\Judy\\Judy\\NewWord\\NewWordsRunner\\NewWordsRunner.csproj",
       "projectName": "NewWordsRunner",
-      "projectPath": "C:\\Users\\JUDY\\source\\repos\\NewWords\\NewWordsRunner\\NewWordsRunner.csproj",
+      "projectPath": "C:\\Users\\JUDY\\Documents\\Judy\\Judy\\NewWord\\NewWordsRunner\\NewWordsRunner.csproj",
       "packagesPath": "C:\\Users\\JUDY\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\JUDY\\source\\repos\\NewWords\\NewWordsRunner\\obj\\",
+      "outputPath": "C:\\Users\\JUDY\\Documents\\Judy\\Judy\\NewWord\\NewWordsRunner\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -780,8 +780,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "C:\\Users\\JUDY\\source\\repos\\NewWords\\NewWords.Fundation\\NewWords.Fundation.csproj": {
-              "projectPath": "C:\\Users\\JUDY\\source\\repos\\NewWords\\NewWords.Fundation\\NewWords.Fundation.csproj"
+            "C:\\Users\\JUDY\\Documents\\Judy\\Judy\\NewWord\\NewWords.Fundation\\NewWords.Fundation.csproj": {
+              "projectPath": "C:\\Users\\JUDY\\Documents\\Judy\\Judy\\NewWord\\NewWords.Fundation\\NewWords.Fundation.csproj"
             }
           }
         }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\JUDY\\source\\repos\\NewWords\\NewWords.Fundation\\NewWords.Fundation.csproj": {}
+    "C:\\Users\\JUDY\\Documents\\Judy\\Judy\\NewWord\\NewWords.Fundation\\NewWords.Fundation.csproj": {}
   },
   "projects": {
-    "C:\\Users\\JUDY\\source\\repos\\NewWords\\NewWords.Fundation\\NewWords.Fundation.csproj": {
+    "C:\\Users\\JUDY\\Documents\\Judy\\Judy\\NewWord\\NewWords.Fundation\\NewWords.Fundation.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JUDY\\source\\repos\\NewWords\\NewWords.Fundation\\NewWords.Fundation.csproj",
+        "projectUniqueName": "C:\\Users\\JUDY\\Documents\\Judy\\Judy\\NewWord\\NewWords.Fundation\\NewWords.Fundation.csproj",
         "projectName": "NewWords.Fundation",
-        "projectPath": "C:\\Users\\JUDY\\source\\repos\\NewWords\\NewWords.Fundation\\NewWords.Fundation.csproj",
+        "projectPath": "C:\\Users\\JUDY\\Documents\\Judy\\Judy\\NewWord\\NewWords.Fundation\\NewWords.Fundation.csproj",
         "packagesPath": "C:\\Users\\JUDY\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JUDY\\source\\repos\\NewWords\\NewWords.Fundation\\obj\\",
+        "outputPath": "C:\\Users\\JUDY\\Documents\\Judy\\Judy\\NewWord\\NewWords.Fundation\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",

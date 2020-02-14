@@ -10,3 +10,15 @@ C:\Users\JUDY\source\repos\NewWords\NewWords\bin\Release\Newtonsoft.Json.xml
 C:\Users\JUDY\source\repos\NewWords\NewWords\obj\Release\NewWords.csproj.CopyComplete
 C:\Users\JUDY\source\repos\NewWords\NewWords\obj\Release\NewWords.exe
 C:\Users\JUDY\source\repos\NewWords\NewWords\obj\Release\NewWords.pdb
+C:\Users\JUDY\Documents\Judy\Judy\NewWord\NewWords\bin\Release\NewWords.exe.config
+C:\Users\JUDY\Documents\Judy\Judy\NewWord\NewWords\bin\Release\NewWords.exe
+C:\Users\JUDY\Documents\Judy\Judy\NewWord\NewWords\bin\Release\NewWords.pdb
+C:\Users\JUDY\Documents\Judy\Judy\NewWord\NewWords\bin\Release\NewWords.Core.dll
+C:\Users\JUDY\Documents\Judy\Judy\NewWord\NewWords\bin\Release\Newtonsoft.Json.dll
+C:\Users\JUDY\Documents\Judy\Judy\NewWord\NewWords\bin\Release\NewWords.Core.pdb
+C:\Users\JUDY\Documents\Judy\Judy\NewWord\NewWords\bin\Release\Newtonsoft.Json.xml
+C:\Users\JUDY\Documents\Judy\Judy\NewWord\NewWords\obj\Release\NewWords.csprojAssemblyReference.cache
+C:\Users\JUDY\Documents\Judy\Judy\NewWord\NewWords\obj\Release\NewWords.csproj.CoreCompileInputs.cache
+C:\Users\JUDY\Documents\Judy\Judy\NewWord\NewWords\obj\Release\NewWords.csproj.CopyComplete
+C:\Users\JUDY\Documents\Judy\Judy\NewWord\NewWords\obj\Release\NewWords.exe
+C:\Users\JUDY\Documents\Judy\Judy\NewWord\NewWords\obj\Release\NewWords.pdb

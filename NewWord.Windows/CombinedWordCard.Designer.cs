@@ -30,27 +30,33 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCard = new System.Windows.Forms.TabPage();
-            this.tabAdd = new System.Windows.Forms.TabPage();
-            this.txtNewWord = new System.Windows.Forms.TextBox();
-            this.lblNewWord = new System.Windows.Forms.Label();
-            this.lblMeaning = new System.Windows.Forms.Label();
-            this.txtMeaning = new System.Windows.Forms.TextBox();
-            this.tabArrange = new System.Windows.Forms.TabPage();
             this.lblDifficulty = new System.Windows.Forms.Label();
             this.btnAgain = new System.Windows.Forms.Button();
             this.lblHidden = new System.Windows.Forms.Label();
             this.btnYes = new System.Windows.Forms.Button();
             this.btnNo = new System.Windows.Forms.Button();
             this.txtWord = new System.Windows.Forms.Label();
-            this.lblRate = new System.Windows.Forms.Label();
+            this.tabAdd = new System.Windows.Forms.TabPage();
             this.numDifficulty = new System.Windows.Forms.NumericUpDown();
-            this.btnArrange1 = new System.Windows.Forms.Button();
+            this.lblRate = new System.Windows.Forms.Label();
+            this.txtMeaning = new System.Windows.Forms.TextBox();
+            this.lblMeaning = new System.Windows.Forms.Label();
+            this.lblNewWord = new System.Windows.Forms.Label();
+            this.txtNewWord = new System.Windows.Forms.TextBox();
+            this.tabArrange = new System.Windows.Forms.TabPage();
             this.lblArrange1 = new System.Windows.Forms.Label();
+            this.btnArrange1 = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnSplitWords = new System.Windows.Forms.Button();
+            this.lblSplit = new System.Windows.Forms.Label();
+            this.tabBooks = new System.Windows.Forms.TabPage();
+            this.treeBooks = new System.Windows.Forms.TreeView();
             this.tabControl1.SuspendLayout();
             this.tabCard.SuspendLayout();
             this.tabAdd.SuspendLayout();
-            this.tabArrange.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numDifficulty)).BeginInit();
+            this.tabArrange.SuspendLayout();
+            this.tabBooks.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -58,10 +64,11 @@
             this.tabControl1.Controls.Add(this.tabCard);
             this.tabControl1.Controls.Add(this.tabAdd);
             this.tabControl1.Controls.Add(this.tabArrange);
+            this.tabControl1.Controls.Add(this.tabBooks);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(279, 195);
+            this.tabControl1.Size = new System.Drawing.Size(262, 216);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.Click += new System.EventHandler(this.TabAdd_Click);
             // 
@@ -76,71 +83,10 @@
             this.tabCard.Location = new System.Drawing.Point(4, 22);
             this.tabCard.Name = "tabCard";
             this.tabCard.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCard.Size = new System.Drawing.Size(271, 169);
+            this.tabCard.Size = new System.Drawing.Size(254, 190);
             this.tabCard.TabIndex = 0;
             this.tabCard.Text = "Card";
             this.tabCard.UseVisualStyleBackColor = true;
-            // 
-            // tabAdd
-            // 
-            this.tabAdd.Controls.Add(this.numDifficulty);
-            this.tabAdd.Controls.Add(this.lblRate);
-            this.tabAdd.Controls.Add(this.txtMeaning);
-            this.tabAdd.Controls.Add(this.lblMeaning);
-            this.tabAdd.Controls.Add(this.lblNewWord);
-            this.tabAdd.Controls.Add(this.txtNewWord);
-            this.tabAdd.Location = new System.Drawing.Point(4, 22);
-            this.tabAdd.Name = "tabAdd";
-            this.tabAdd.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAdd.Size = new System.Drawing.Size(271, 169);
-            this.tabAdd.TabIndex = 1;
-            this.tabAdd.Text = "Add";
-            this.tabAdd.UseVisualStyleBackColor = true;
-            this.tabAdd.Click += new System.EventHandler(this.TabAdd_Click);
-            // 
-            // txtNewWord
-            // 
-            this.txtNewWord.Location = new System.Drawing.Point(80, 17);
-            this.txtNewWord.Name = "txtNewWord";
-            this.txtNewWord.Size = new System.Drawing.Size(128, 20);
-            this.txtNewWord.TabIndex = 0;
-            // 
-            // lblNewWord
-            // 
-            this.lblNewWord.AutoSize = true;
-            this.lblNewWord.Location = new System.Drawing.Point(23, 24);
-            this.lblNewWord.Name = "lblNewWord";
-            this.lblNewWord.Size = new System.Drawing.Size(33, 13);
-            this.lblNewWord.TabIndex = 1;
-            this.lblNewWord.Text = "Word";
-            // 
-            // lblMeaning
-            // 
-            this.lblMeaning.AutoSize = true;
-            this.lblMeaning.Location = new System.Drawing.Point(23, 63);
-            this.lblMeaning.Name = "lblMeaning";
-            this.lblMeaning.Size = new System.Drawing.Size(48, 13);
-            this.lblMeaning.TabIndex = 2;
-            this.lblMeaning.Text = "Meaning";
-            // 
-            // txtMeaning
-            // 
-            this.txtMeaning.Location = new System.Drawing.Point(80, 56);
-            this.txtMeaning.Name = "txtMeaning";
-            this.txtMeaning.Size = new System.Drawing.Size(128, 20);
-            this.txtMeaning.TabIndex = 3;
-            // 
-            // tabArrange
-            // 
-            this.tabArrange.Controls.Add(this.lblArrange1);
-            this.tabArrange.Controls.Add(this.btnArrange1);
-            this.tabArrange.Location = new System.Drawing.Point(4, 22);
-            this.tabArrange.Name = "tabArrange";
-            this.tabArrange.Padding = new System.Windows.Forms.Padding(3);
-            this.tabArrange.Size = new System.Drawing.Size(271, 169);
-            this.tabArrange.TabIndex = 2;
-            this.tabArrange.Text = "Arrange";
-            this.tabArrange.UseVisualStyleBackColor = true;
             // 
             // lblDifficulty
             // 
@@ -175,6 +121,7 @@
             this.lblHidden.Size = new System.Drawing.Size(41, 13);
             this.lblHidden.TabIndex = 9;
             this.lblHidden.Text = "Hidden";
+            this.lblHidden.Visible = false;
             // 
             // btnYes
             // 
@@ -212,31 +159,37 @@
             this.txtWord.Size = new System.Drawing.Size(60, 24);
             this.txtWord.TabIndex = 6;
             this.txtWord.Text = "label1";
+            this.txtWord.Click += new System.EventHandler(this.TxtWord_Click);
             // 
-            // lblRate
+            // tabAdd
             // 
-            this.lblRate.AutoSize = true;
-            this.lblRate.Location = new System.Drawing.Point(23, 104);
-            this.lblRate.Name = "lblRate";
-            this.lblRate.Size = new System.Drawing.Size(47, 13);
-            this.lblRate.TabIndex = 4;
-            this.lblRate.Text = "Difficulty";
+            this.tabAdd.Controls.Add(this.btnUpdate);
+            this.tabAdd.Controls.Add(this.numDifficulty);
+            this.tabAdd.Controls.Add(this.lblRate);
+            this.tabAdd.Controls.Add(this.txtMeaning);
+            this.tabAdd.Controls.Add(this.lblMeaning);
+            this.tabAdd.Controls.Add(this.lblNewWord);
+            this.tabAdd.Controls.Add(this.txtNewWord);
+            this.tabAdd.Location = new System.Drawing.Point(4, 22);
+            this.tabAdd.Name = "tabAdd";
+            this.tabAdd.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAdd.Size = new System.Drawing.Size(254, 190);
+            this.tabAdd.TabIndex = 1;
+            this.tabAdd.Text = "Add";
+            this.tabAdd.UseVisualStyleBackColor = true;
+            this.tabAdd.Click += new System.EventHandler(this.TabAdd_Click);
             // 
             // numDifficulty
             // 
-            this.numDifficulty.Location = new System.Drawing.Point(80, 97);
+            this.numDifficulty.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numDifficulty.Location = new System.Drawing.Point(65, 97);
             this.numDifficulty.Maximum = new decimal(new int[] {
             4,
             0,
             0,
             0});
-            this.numDifficulty.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.numDifficulty.Name = "numDifficulty";
-            this.numDifficulty.Size = new System.Drawing.Size(128, 20);
+            this.numDifficulty.Size = new System.Drawing.Size(160, 20);
             this.numDifficulty.TabIndex = 7;
             this.numDifficulty.Value = new decimal(new int[] {
             4,
@@ -245,13 +198,80 @@
             0});
             this.numDifficulty.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Difficulty_OnKeyPress);
             // 
+            // lblRate
+            // 
+            this.lblRate.AutoSize = true;
+            this.lblRate.Location = new System.Drawing.Point(8, 104);
+            this.lblRate.Name = "lblRate";
+            this.lblRate.Size = new System.Drawing.Size(47, 13);
+            this.lblRate.TabIndex = 4;
+            this.lblRate.Text = "Difficulty";
+            // 
+            // txtMeaning
+            // 
+            this.txtMeaning.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMeaning.Location = new System.Drawing.Point(65, 60);
+            this.txtMeaning.Name = "txtMeaning";
+            this.txtMeaning.Size = new System.Drawing.Size(160, 20);
+            this.txtMeaning.TabIndex = 3;
+            // 
+            // lblMeaning
+            // 
+            this.lblMeaning.AutoSize = true;
+            this.lblMeaning.Location = new System.Drawing.Point(8, 63);
+            this.lblMeaning.Name = "lblMeaning";
+            this.lblMeaning.Size = new System.Drawing.Size(48, 13);
+            this.lblMeaning.TabIndex = 2;
+            this.lblMeaning.Text = "Meaning";
+            // 
+            // lblNewWord
+            // 
+            this.lblNewWord.AutoSize = true;
+            this.lblNewWord.Location = new System.Drawing.Point(8, 24);
+            this.lblNewWord.Name = "lblNewWord";
+            this.lblNewWord.Size = new System.Drawing.Size(33, 13);
+            this.lblNewWord.TabIndex = 1;
+            this.lblNewWord.Text = "Word";
+            // 
+            // txtNewWord
+            // 
+            this.txtNewWord.Font = new System.Drawing.Font("Microsoft New Tai Lue", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNewWord.Location = new System.Drawing.Point(65, 17);
+            this.txtNewWord.Name = "txtNewWord";
+            this.txtNewWord.Size = new System.Drawing.Size(160, 28);
+            this.txtNewWord.TabIndex = 0;
+            // 
+            // tabArrange
+            // 
+            this.tabArrange.Controls.Add(this.lblSplit);
+            this.tabArrange.Controls.Add(this.btnSplitWords);
+            this.tabArrange.Controls.Add(this.lblArrange1);
+            this.tabArrange.Controls.Add(this.btnArrange1);
+            this.tabArrange.Location = new System.Drawing.Point(4, 22);
+            this.tabArrange.Name = "tabArrange";
+            this.tabArrange.Padding = new System.Windows.Forms.Padding(3);
+            this.tabArrange.Size = new System.Drawing.Size(254, 190);
+            this.tabArrange.TabIndex = 2;
+            this.tabArrange.Text = "Arrange";
+            this.tabArrange.UseVisualStyleBackColor = true;
+            // 
+            // lblArrange1
+            // 
+            this.lblArrange1.AutoSize = true;
+            this.lblArrange1.Location = new System.Drawing.Point(37, 49);
+            this.lblArrange1.Name = "lblArrange1";
+            this.lblArrange1.Size = new System.Drawing.Size(36, 13);
+            this.lblArrange1.TabIndex = 14;
+            this.lblArrange1.Text = "Done!";
+            this.lblArrange1.Visible = false;
+            // 
             // btnArrange1
             // 
             this.btnArrange1.BackColor = System.Drawing.Color.SteelBlue;
             this.btnArrange1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnArrange1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnArrange1.ForeColor = System.Drawing.Color.White;
-            this.btnArrange1.Location = new System.Drawing.Point(37, 6);
+            this.btnArrange1.Location = new System.Drawing.Point(31, 6);
             this.btnArrange1.Name = "btnArrange1";
             this.btnArrange1.Size = new System.Drawing.Size(193, 40);
             this.btnArrange1.TabIndex = 13;
@@ -259,21 +279,67 @@
             this.btnArrange1.UseVisualStyleBackColor = false;
             this.btnArrange1.Click += new System.EventHandler(this.BtnArrange1_Click);
             // 
-            // lblArrange1
+            // btnUpdate
             // 
-            this.lblArrange1.AutoSize = true;
-            this.lblArrange1.Location = new System.Drawing.Point(34, 49);
-            this.lblArrange1.Name = "lblArrange1";
-            this.lblArrange1.Size = new System.Drawing.Size(36, 13);
-            this.lblArrange1.TabIndex = 14;
-            this.lblArrange1.Text = "Done!";
-            this.lblArrange1.Visible = false;
+            this.btnUpdate.BackColor = System.Drawing.Color.MediumPurple;
+            this.btnUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUpdate.ForeColor = System.Drawing.Color.White;
+            this.btnUpdate.Location = new System.Drawing.Point(150, 143);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(75, 32);
+            this.btnUpdate.TabIndex = 8;
+            this.btnUpdate.Text = "Update";
+            this.btnUpdate.UseVisualStyleBackColor = false;
+            this.btnUpdate.Visible = false;
+            this.btnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
+            // 
+            // btnSplitWords
+            // 
+            this.btnSplitWords.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnSplitWords.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnSplitWords.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSplitWords.ForeColor = System.Drawing.Color.White;
+            this.btnSplitWords.Location = new System.Drawing.Point(31, 65);
+            this.btnSplitWords.Name = "btnSplitWords";
+            this.btnSplitWords.Size = new System.Drawing.Size(193, 42);
+            this.btnSplitWords.TabIndex = 15;
+            this.btnSplitWords.Text = "Split words";
+            this.btnSplitWords.UseVisualStyleBackColor = false;
+            this.btnSplitWords.Click += new System.EventHandler(this.BtnSplitWords_Click);
+            // 
+            // lblSplit
+            // 
+            this.lblSplit.AutoSize = true;
+            this.lblSplit.Location = new System.Drawing.Point(37, 110);
+            this.lblSplit.Name = "lblSplit";
+            this.lblSplit.Size = new System.Drawing.Size(36, 13);
+            this.lblSplit.TabIndex = 16;
+            this.lblSplit.Text = "Done!";
+            this.lblSplit.Visible = false;
+            // 
+            // tabBooks
+            // 
+            this.tabBooks.Controls.Add(this.treeBooks);
+            this.tabBooks.Location = new System.Drawing.Point(4, 22);
+            this.tabBooks.Name = "tabBooks";
+            this.tabBooks.Padding = new System.Windows.Forms.Padding(3);
+            this.tabBooks.Size = new System.Drawing.Size(254, 190);
+            this.tabBooks.TabIndex = 3;
+            this.tabBooks.Text = "Book";
+            this.tabBooks.UseVisualStyleBackColor = true;
+            // 
+            // treeBooks
+            // 
+            this.treeBooks.Location = new System.Drawing.Point(31, 17);
+            this.treeBooks.Name = "treeBooks";
+            this.treeBooks.Size = new System.Drawing.Size(8, 8);
+            this.treeBooks.TabIndex = 1;
             // 
             // CombinedWordCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(276, 192);
+            this.ClientSize = new System.Drawing.Size(258, 209);
             this.Controls.Add(this.tabControl1);
             this.Name = "CombinedWordCard";
             this.Text = "CombinedWordCard";
@@ -283,9 +349,10 @@
             this.tabCard.PerformLayout();
             this.tabAdd.ResumeLayout(false);
             this.tabAdd.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numDifficulty)).EndInit();
             this.tabArrange.ResumeLayout(false);
             this.tabArrange.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numDifficulty)).EndInit();
+            this.tabBooks.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -310,5 +377,10 @@
         private System.Windows.Forms.NumericUpDown numDifficulty;
         private System.Windows.Forms.Button btnArrange1;
         private System.Windows.Forms.Label lblArrange1;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Button btnSplitWords;
+        private System.Windows.Forms.Label lblSplit;
+        private System.Windows.Forms.TabPage tabBooks;
+        private System.Windows.Forms.TreeView treeBooks;
     }
 }
