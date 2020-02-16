@@ -28,11 +28,8 @@ namespace NewWord.Windows
 
         public CombinedWordCard()
         {
-
             TopMost = true;
             InitializeComponent();
-
-
         }
         private void WordCard_Load(object sender, EventArgs e)
         {
@@ -58,30 +55,31 @@ namespace NewWord.Windows
         {
             if (btnNo.Text == "Previous" && _count > 0)
             {
-                if (_count > 0)
-                {
-                    _count--;
-                    ShowWordCard();
-                }
-                else
-                {
-                    btnNo.Enabled = false;
-                }
-            }
-            else
-            {
-                _words[_count].Remember = false;
-                if (_count == _words.Count - 1)
+                if (_count == _words.Count)
                 {
                     TheEnd();
                 }
                 else
                 {
-                    _words[_count].Count++;
-                    lblHidden.Visible = true;
-                    btnYes.Text = "Next";
-                    btnNo.Text = "Previous";
+                    if (_count > 0)
+                    {
+                        _count--;
+                        ShowWordCard();
+                    }
+                    else
+                    {
+                        btnNo.Enabled = false;
+                    }
                 }
+               
+            }
+            else
+            {
+                _words[_count].Remember = false;
+                _words[_count].Count++;
+                lblHidden.Visible = true;
+                btnYes.Text = "Next";
+                btnNo.Text = "Previous";
             }
         }
 
@@ -202,6 +200,7 @@ namespace NewWord.Windows
             numDifficulty.Value = 4;
             btnUpdate.Visible = false;
             tabControl1.SelectedTab = tabCard;
+            _arrangeManager.SaveRememberStatus(_words, Constants.Book.BookPath + _currentBook);
             ShowWordCard();
         }
 
@@ -226,23 +225,29 @@ namespace NewWord.Windows
 
         private void BtnArrange1_Click(object sender, EventArgs e)
         {
-            var rememberWordsString = _words.Where(x => x.Remember && x.Count >= 50 || x.Difficulty == 0).Select(x=>x).ToList().ToJsonString();
-            var rememberWordTextName = Constants.Book.OkPath+"OKWord" + DateTime.Now.Date.ToString("yyyyMMdd") + ".txt";
-            if (!File.Exists(rememberWordTextName) && !string.IsNullOrWhiteSpace(rememberWordsString))
+            _arrangeManager.SaveRememberStatus(_words, Constants.Book.BookPath + _currentBook);
+            _arrangeManager.MergeWordToAll();
+            var allWord = FileManager.GetWordList(Constants.Book.AllWordFilePath);
+            var rememberWordsString = allWord.Where(x => x.Remember && x.Count >= 50 || x.Difficulty == 0).Select(x=>x).ToList().ToJsonString();
+            allWord.RemoveAll(x => x.Remember && x.Count >= 50 || x.Difficulty == 0);
+            FileManager.SaveJsonToFile(Constants.Book.AllWordFilePath, allWord.ToJsonString());
+            _arrangeManager.SplitWordToBooks();
+            var rememberWordFilePath = Constants.Book.OkPath+"OKWord" + DateTime.Now.Date.ToString("yyyyMMdd") + ".txt";
+            if (!File.Exists(rememberWordFilePath) && !string.IsNullOrWhiteSpace(rememberWordsString))
             {
-                using (var sw = File.CreateText(rememberWordTextName))
+                using (var sw = File.CreateText(rememberWordFilePath))
                 {
                     sw.Write(rememberWordsString + ",");
                 }
             }
-                
 
             if (!string.IsNullOrWhiteSpace(rememberWordsString))
             {
-                File.AppendAllText(rememberWordTextName, rememberWordsString);
-                _words.RemoveAll(x => x.Remember && x.Count >= 50 || x.Difficulty == 0);
+                File.AppendAllText(rememberWordFilePath, rememberWordsString);
+                _words = FileManager.GetWordList(Constants.Book.BookPath + _currentBook);
+                CardBeginning();
                 lblArrange1.Visible = true;
-                lblArrange1.Text = lblArrange1.Text + " (at" + DateTime.Now.ToString("HH:mm") + ")";
+                lblArrange1.Text = "Done! (at" + DateTime.Now.ToString("HH:mm") + ")";
             }
             else
             {
