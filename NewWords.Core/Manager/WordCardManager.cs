@@ -20,7 +20,7 @@ namespace NewWords.Core.Manager
 
         public void AddOneWord(WordCard word)
         {
-            var newWordBookPath = Constants.Book.BookPath + "NewWords.txt";
+            var newWordBookPath = Constants.Book.BookPath + Constants.BookName.NewWordBook;
             var jsonString = JsonConvert.SerializeObject(word);
             _fileManager.CheckFileIfExistThenCreate(newWordBookPath);
             File.AppendAllText(newWordBookPath, jsonString + ",");

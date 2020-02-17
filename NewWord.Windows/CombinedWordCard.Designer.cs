@@ -81,7 +81,7 @@
             this.tabCard.Controls.Add(this.txtWord);
             this.tabCard.Location = new System.Drawing.Point(4, 22);
             this.tabCard.Name = "tabCard";
-            this.tabCard.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabCard.Padding = new System.Windows.Forms.Padding(3);
             this.tabCard.Size = new System.Drawing.Size(254, 190);
             this.tabCard.TabIndex = 0;
             this.tabCard.Text = "Card";
@@ -91,7 +91,7 @@
             // 
             this.lblDifficulty.AutoSize = true;
             this.lblDifficulty.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDifficulty.Location = new System.Drawing.Point(11, 13);
+            this.lblDifficulty.Location = new System.Drawing.Point(11, 18);
             this.lblDifficulty.Name = "lblDifficulty";
             this.lblDifficulty.Size = new System.Drawing.Size(87, 24);
             this.lblDifficulty.TabIndex = 11;
@@ -113,13 +113,13 @@
             // 
             // lblHidden
             // 
-            this.lblHidden.AutoSize = true;
             this.lblHidden.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblHidden.Location = new System.Drawing.Point(100, 56);
+            this.lblHidden.Location = new System.Drawing.Point(61, 56);
             this.lblHidden.Name = "lblHidden";
-            this.lblHidden.Size = new System.Drawing.Size(41, 13);
+            this.lblHidden.Size = new System.Drawing.Size(105, 20);
             this.lblHidden.TabIndex = 9;
             this.lblHidden.Text = "Hidden";
+            this.lblHidden.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblHidden.Visible = false;
             // 
             // btnYes
@@ -151,13 +151,16 @@
             // 
             // txtWord
             // 
-            this.txtWord.AutoSize = true;
+            this.txtWord.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtWord.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtWord.Location = new System.Drawing.Point(87, 27);
+            this.txtWord.Location = new System.Drawing.Point(64, 32);
             this.txtWord.Name = "txtWord";
-            this.txtWord.Size = new System.Drawing.Size(60, 24);
+            this.txtWord.Size = new System.Drawing.Size(102, 24);
             this.txtWord.TabIndex = 6;
             this.txtWord.Text = "label1";
+            this.txtWord.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.txtWord.Click += new System.EventHandler(this.TxtWord_Click);
             // 
             // tabAdd
@@ -171,7 +174,7 @@
             this.tabAdd.Controls.Add(this.txtNewWord);
             this.tabAdd.Location = new System.Drawing.Point(4, 22);
             this.tabAdd.Name = "tabAdd";
-            this.tabAdd.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabAdd.Padding = new System.Windows.Forms.Padding(3);
             this.tabAdd.Size = new System.Drawing.Size(254, 190);
             this.tabAdd.TabIndex = 1;
             this.tabAdd.Text = "Add";
@@ -263,7 +266,7 @@
             this.tabArrange.Controls.Add(this.btnArrange1);
             this.tabArrange.Location = new System.Drawing.Point(4, 22);
             this.tabArrange.Name = "tabArrange";
-            this.tabArrange.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabArrange.Padding = new System.Windows.Forms.Padding(3);
             this.tabArrange.Size = new System.Drawing.Size(254, 190);
             this.tabArrange.TabIndex = 2;
             this.tabArrange.Text = "Arrange";
@@ -322,7 +325,7 @@
             this.tabBooks.Controls.Add(this.treeBooks);
             this.tabBooks.Location = new System.Drawing.Point(4, 22);
             this.tabBooks.Name = "tabBooks";
-            this.tabBooks.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabBooks.Padding = new System.Windows.Forms.Padding(3);
             this.tabBooks.Size = new System.Drawing.Size(254, 190);
             this.tabBooks.TabIndex = 3;
             this.tabBooks.Text = "Book";

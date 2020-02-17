@@ -53,7 +53,7 @@ namespace NewWord.Windows
 
         private void BtnNo_Click(object sender, EventArgs e)
         {
-            if (btnNo.Text == "Previous" && _count > 0)
+            if (btnNo.Text == Constants.FormText.Previous && _count > 0)
             {
                 if (_count == _words.Count)
                 {
@@ -78,8 +78,8 @@ namespace NewWord.Windows
                 _words[_count].Remember = false;
                 _words[_count].Count++;
                 lblHidden.Visible = true;
-                btnYes.Text = "Next";
-                btnNo.Text = "Previous";
+                btnYes.Text = Constants.FormText.Next;
+                btnNo.Text = Constants.FormText.Previous;
             }
         }
 
@@ -90,11 +90,11 @@ namespace NewWord.Windows
 
         private void BtnYes_Click(object sender, EventArgs e)
         {
-            if (btnYes.Text != "Next")
+            if (btnYes.Text != Constants.FormText.Next)
             {
                 lblHidden.Visible = true;
-                btnYes.Text = "Next";
-                btnNo.Text = "Previous";
+                btnYes.Text = Constants.FormText.Next;
+                btnNo.Text = Constants.FormText.Previous;
                 _words[_count].Remember = true;
             }
             else
@@ -131,8 +131,8 @@ namespace NewWord.Windows
             lblDifficulty.Text = new string('*', _words[_count].Difficulty);
             lblHidden.Text = _words[_count].Meaning;
             btnYes.Visible = true;
-            btnYes.Text = "Yes";
-            btnNo.Text = "No";
+            btnYes.Text = Constants.FormText.Yes;
+            btnNo.Text = Constants.FormText.No;
             btnNo.Visible = true;
             lblDifficulty.Visible = true;
             btnAgain.Visible = false;
@@ -146,7 +146,7 @@ namespace NewWord.Windows
             lblHidden.Visible = false;
             lblDifficulty.Visible = false;
             txtWord.ForeColor = Color.Black;
-            txtWord.Text = "The End";
+            txtWord.Text = Constants.FormText.TheEnd;
             btnAgain.Visible = _words.Count > 0;
         }
         private void NoNewWord()
@@ -155,7 +155,7 @@ namespace NewWord.Windows
             btnYes.Visible = false;
             btnAgain.Visible = false;
             lblDifficulty.Visible = false;
-            txtWord.Text = "No new word.";
+            txtWord.Text = Constants.FormText.NoWord;
         }
         #endregion
 
@@ -176,6 +176,10 @@ namespace NewWord.Windows
             {
                 Word = txtNewWord.Text, Meaning = txtMeaning.Text, Difficulty = (int) numDifficulty.Value
             };
+            if (_currentBook == Constants.BookName.NewWordBook)
+            {
+                _words.Add(word);
+            }
             _wordManager.AddOneWord(word);
         }
         private void Difficulty_OnKeyPress(object sender, KeyPressEventArgs e)
@@ -232,7 +236,7 @@ namespace NewWord.Windows
             allWord.RemoveAll(x => x.Remember && x.Count >= 50 || x.Difficulty == 0);
             FileManager.SaveJsonToFile(Constants.Book.AllWordFilePath, allWord.ToJsonString());
             _arrangeManager.SplitWordToBooks();
-            var rememberWordFilePath = Constants.Book.OkPath+"OKWord" + DateTime.Now.Date.ToString("yyyyMMdd") + ".txt";
+            var rememberWordFilePath = Constants.BuildOkWordBookFilePath();
             if (!File.Exists(rememberWordFilePath) && !string.IsNullOrWhiteSpace(rememberWordsString))
             {
                 using (var sw = File.CreateText(rememberWordFilePath))
@@ -247,12 +251,12 @@ namespace NewWord.Windows
                 _words = FileManager.GetWordList(Constants.Book.BookPath + _currentBook);
                 CardBeginning();
                 lblArrange1.Visible = true;
-                lblArrange1.Text = "Done! (at" + DateTime.Now.ToString("HH:mm") + ")";
+                lblArrange1.Text = Constants.BuildArrangeText(Constants.FormText.TaskCompleteText);
             }
             else
             {
                 lblArrange1.Visible = true;
-                lblArrange1.Text = "No remember words" + " (at" + DateTime.Now.ToString("HH:mm") + ")";
+                lblArrange1.Text = Constants.BuildArrangeText(Constants.FormText.NoRememberWord);
             }
         }
         private void BtnSplitWords_Click(object sender, EventArgs e)
@@ -261,7 +265,7 @@ namespace NewWord.Windows
                 _arrangeManager.SaveRememberStatus(_words, Constants.Book.BookPath + _currentBook);
             _arrangeManager.MergeWordToAll();
 
-            lblSplit.Text = "Done! (at " + DateTime.Now.ToString("HH:mm:ss") + ")";
+            lblSplit.Text = Constants.BuildArrangeText(Constants.FormText.TaskCompleteText);
             lblSplit.Visible = true;
         }
 
