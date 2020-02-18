@@ -36,11 +36,12 @@ namespace NewWords.Core.Manager
         public void SplitWordToBooks()
         {
             var allWords = _fileManager.GetWordList(Constants.Book.AllWordFilePath);
-            var word10 = allWords.Where(x => x.Count <= 10).Select(x => x).ToList();
-            var word20 = allWords.Where(x => x.Count <= 20 && x.Count > 10).Select(x => x).ToList();
-            var word30 = allWords.Where(x => x.Count <= 30 && x.Count > 20).Select(x => x).ToList();
-            var word40 = allWords.Where(x => x.Count <= 40 && x.Count > 30).Select(x => x).ToList();
-            var word50 = allWords.Where(x => (x.Count <= 50 && x.Count > 40) || x.Count > 50).Select(x => x).ToList();
+            var word10 = allWords.Where(x => x.Count <= 10 && x.Difficulty <5).Select(x => x).ToList();
+            var word20 = allWords.Where(x => x.Count <= 20 && x.Count > 10 && x.Difficulty < 5).Select(x => x).ToList();
+            var word30 = allWords.Where(x => x.Count <= 30 && x.Count > 20 && x.Difficulty < 5).Select(x => x).ToList();
+            var word40 = allWords.Where(x => x.Count <= 40 && x.Count > 30 && x.Difficulty < 5).Select(x => x).ToList();
+            var word50 = allWords.Where(x => (x.Count <= 50 && x.Count > 40 && x.Difficulty < 5) || (x.Count > 50 && x.Difficulty < 5)).Select(x => x).ToList();
+            var hardWord = allWords.Where(x => x.Difficulty == 5).Select(x => x).ToList();
 
             var di = new DirectoryInfo(Constants.Book.BookPath);
             foreach (FileInfo file in di.GetFiles())
@@ -53,12 +54,14 @@ namespace NewWords.Core.Manager
             var word30StringList = SplitWordsByCount(word30);
             var word40StringList = SplitWordsByCount(word40);
             var word50StringList = SplitWordsByCount(word50);
+            var hardWordStringList = SplitWordsByCount(hardWord);
 
             SaveBooks(word10StringList,Constants.Book.BookPath + "Word_10");
             SaveBooks(word20StringList, Constants.Book.BookPath + "Word_20");
             SaveBooks(word30StringList, Constants.Book.BookPath + "Word_30");
             SaveBooks(word40StringList, Constants.Book.BookPath + "Word_40");
             SaveBooks(word50StringList, Constants.Book.BookPath + "Word_50");
+            SaveBooks(hardWordStringList, Constants.Book.BookPath + "HardWord");
 
         }
 

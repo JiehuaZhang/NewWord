@@ -130,6 +130,7 @@ namespace NewWord.Windows
             txtWord.ForeColor = _words[_count].Remember ? _rememberColor : _forgotColor;
             lblDifficulty.Text = new string('*', _words[_count].Difficulty);
             lblHidden.Text = _words[_count].Meaning;
+            lblBookName.Text = _currentBook;
             btnYes.Visible = true;
             btnYes.Text = Constants.FormText.Yes;
             btnNo.Text = Constants.FormText.No;
@@ -157,6 +158,12 @@ namespace NewWord.Windows
             lblDifficulty.Visible = false;
             txtWord.Text = Constants.FormText.NoWord;
         }
+        private void CardBeginning()
+        {
+            _count = 0;
+            ShowWordCard();
+        }
+
         #endregion
 
         #endregion
@@ -213,11 +220,7 @@ namespace NewWord.Windows
 
         #region Functions
 
-        private void CardBeginning()
-        {
-            _count = 0;
-            ShowWordCard();
-        }
+        
 
         #endregion
 
@@ -267,6 +270,20 @@ namespace NewWord.Windows
 
             lblSplit.Text = Constants.BuildArrangeText(Constants.FormText.TaskCompleteText);
             lblSplit.Visible = true;
+
+            if(File.Exists(Constants.Book.BookPath + _currentBook))
+            { 
+                _words = FileManager.GetWordList(Constants.Book.BookPath + _currentBook);
+            }
+            else
+            {
+                var files = FileManager.GetFiles();
+                _currentBook = files.Length > 0 ? files[0] : string.Empty;
+                _words = string.IsNullOrEmpty(_currentBook)
+                    ? new List<NewWords.Core.Model.WordCard>()
+                    : FileManager.GetWordList(Constants.Book.BookPath + files[0]);
+            }
+            CardBeginning();
         }
 
         #endregion
@@ -283,6 +300,10 @@ namespace NewWord.Windows
 
         private void Book_Fresh(object sender, EventArgs e)
         {
+            if (!string.IsNullOrEmpty(_currentBook))
+            {
+                _arrangeManager.SaveRememberStatus(_words, Constants.Book.BookPath + _currentBook);
+            }
             treeBooks.Nodes.Clear();
             GetAllBooks();
         }
@@ -290,10 +311,6 @@ namespace NewWord.Windows
 
         private void Book_Select(object sender, MouseEventArgs e)
         {
-            if (!string.IsNullOrEmpty(_currentBook))
-            {
-                _arrangeManager.SaveRememberStatus(_words, Constants.Book.BookPath + _currentBook);
-            }
             _currentBook = treeBooks.SelectedNode.Text;
             _words = FileManager.GetWordList(Constants.Book.BookPath + _currentBook);
             CardBeginning();
@@ -321,6 +338,8 @@ namespace NewWord.Windows
 
             var treeNode = new TreeNode("Books", nodeList.ToArray());
             treeBooks.Nodes.Add(treeNode);
+            treeBooks.ExpandAll();
+
         }
 
         #endregion

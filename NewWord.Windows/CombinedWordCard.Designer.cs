@@ -51,6 +51,7 @@
             this.btnArrange1 = new System.Windows.Forms.Button();
             this.tabBooks = new System.Windows.Forms.TabPage();
             this.treeBooks = new System.Windows.Forms.TreeView();
+            this.lblBookName = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabCard.SuspendLayout();
             this.tabAdd.SuspendLayout();
@@ -73,6 +74,7 @@
             // 
             // tabCard
             // 
+            this.tabCard.Controls.Add(this.lblBookName);
             this.tabCard.Controls.Add(this.lblDifficulty);
             this.tabCard.Controls.Add(this.btnAgain);
             this.tabCard.Controls.Add(this.lblHidden);
@@ -114,9 +116,9 @@
             // lblHidden
             // 
             this.lblHidden.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblHidden.Location = new System.Drawing.Point(61, 56);
+            this.lblHidden.Location = new System.Drawing.Point(27, 56);
             this.lblHidden.Name = "lblHidden";
-            this.lblHidden.Size = new System.Drawing.Size(105, 20);
+            this.lblHidden.Size = new System.Drawing.Size(200, 20);
             this.lblHidden.TabIndex = 9;
             this.lblHidden.Text = "Hidden";
             this.lblHidden.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -155,9 +157,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtWord.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtWord.Location = new System.Drawing.Point(64, 32);
+            this.txtWord.Location = new System.Drawing.Point(23, 32);
             this.txtWord.Name = "txtWord";
-            this.txtWord.Size = new System.Drawing.Size(102, 24);
+            this.txtWord.Size = new System.Drawing.Size(204, 24);
             this.txtWord.TabIndex = 6;
             this.txtWord.Text = "label1";
             this.txtWord.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -201,7 +203,7 @@
             this.numDifficulty.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numDifficulty.Location = new System.Drawing.Point(65, 97);
             this.numDifficulty.Maximum = new decimal(new int[] {
-            4,
+            5,
             0,
             0,
             0});
@@ -340,14 +342,22 @@
             this.treeBooks.TabIndex = 1;
             this.treeBooks.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Book_Select);
             // 
+            // lblBookName
+            // 
+            this.lblBookName.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.lblBookName.Location = new System.Drawing.Point(140, 159);
+            this.lblBookName.Name = "lblBookName";
+            this.lblBookName.Size = new System.Drawing.Size(87, 23);
+            this.lblBookName.TabIndex = 12;
+            // 
             // CombinedWordCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(258, 209);
+            this.ClientSize = new System.Drawing.Size(261, 213);
             this.Controls.Add(this.tabControl1);
             this.Name = "CombinedWordCard";
-            this.Text = "CombinedWordCard";
+            this.Text = "NewWord";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Card_Closing);
             this.Load += new System.EventHandler(this.WordCard_Load);
             this.tabControl1.ResumeLayout(false);
@@ -388,5 +398,6 @@
         private System.Windows.Forms.Label lblSplit;
         private System.Windows.Forms.TabPage tabBooks;
         private System.Windows.Forms.TreeView treeBooks;
+        private System.Windows.Forms.Label lblBookName;
     }
 }
