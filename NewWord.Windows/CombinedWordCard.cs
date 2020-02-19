@@ -53,34 +53,11 @@ namespace NewWord.Windows
 
         private void BtnNo_Click(object sender, EventArgs e)
         {
-            if (btnNo.Text == Constants.FormText.Previous && _count > 0)
-            {
-                if (_count == _words.Count)
-                {
-                    TheEnd();
-                }
-                else
-                {
-                    if (_count > 0)
-                    {
-                        _count--;
-                        ShowWordCard();
-                    }
-                    else
-                    {
-                        btnNo.Enabled = false;
-                    }
-                }
-               
-            }
-            else
-            {
                 _words[_count].Remember = false;
                 _words[_count].Count++;
                 lblHidden.Visible = true;
-                btnYes.Text = Constants.FormText.Next;
-                btnNo.Text = Constants.FormText.Previous;
-            }
+                btnYes.Visible = false;
+                btnNo.Visible = false;
         }
 
         private void BtnAgain_Click(object sender, EventArgs e)
@@ -88,28 +65,28 @@ namespace NewWord.Windows
             CardBeginning();
         }
 
-        private void BtnYes_Click(object sender, EventArgs e)
+        private async void BtnYes_Click(object sender, EventArgs e)
         {
             if (btnYes.Text != Constants.FormText.Next)
             {
                 lblHidden.Visible = true;
-                btnYes.Text = Constants.FormText.Next;
-                btnNo.Text = Constants.FormText.Previous;
-                _words[_count].Remember = true;
+                btnYes.Visible = false;
+                btnNo.Visible = false;
+                lblNext.Visible = false;
+                lblPrevious.Visible = false;
+                await Task.Delay(1000);
+            }
+            _words[_count].Count++;
+            if (_count == _words.Count - 1)
+            {
+                TheEnd();
             }
             else
             {
-                _words[_count].Count++;
-                if (_count == _words.Count - 1)
-                {
-                    TheEnd();
-                }
-                else
-                {
-                    _count++;
-                    ShowWordCard();
-                }
+                _count++;
+                ShowWordCard();
             }
+            
         }
 
         private void TxtWord_Click(object sender, EventArgs e)
@@ -119,6 +96,24 @@ namespace NewWord.Windows
             txtMeaning.Text = _words[_count].Meaning;
             numDifficulty.Value = _words[_count].Difficulty;
             btnUpdate.Visible = true;
+        }
+        private void LblPrevious_Click(object sender, EventArgs e)
+        {
+            _count--;
+            ShowWordCard();
+        }
+
+        private void LblNext_Click(object sender, EventArgs e)
+        {
+            _count++;
+            if (_count == _words.Count)
+            {
+                TheEnd();
+            }
+            else
+            {
+                ShowWordCard();
+            }
         }
 
         #endregion
@@ -141,6 +136,8 @@ namespace NewWord.Windows
             lblHidden.Visible = false;
             lblIndex.Visible = true;
             btnNo.Enabled = true;
+            lblNext.Visible = true;
+            lblPrevious.Visible = _count !=0;
         }
         private void TheEnd()
         {
@@ -149,6 +146,8 @@ namespace NewWord.Windows
             lblHidden.Visible = false;
             lblDifficulty.Visible = false;
             lblIndex.Visible = false;
+            lblNext.Visible = false;
+            lblPrevious.Visible = false;
             txtWord.ForeColor = Color.Black;
             txtWord.Text = Constants.FormText.TheEnd;
             btnAgain.Visible = _words.Count > 0;
@@ -352,10 +351,24 @@ namespace NewWord.Windows
 
         }
 
+
+
         #endregion
 
         #endregion
 
+        private void LabelChangeColor_MouseHover(object sender, EventArgs e)
+        {
+            var label = (Label) sender;
+            label.BackColor = Color.DarkGoldenrod;
+            label.ForeColor = Color.White;
+        }
 
+        private void LabelChangeColor_MouseLeave(object sender, EventArgs e)
+        {
+            var label = (Label)sender;
+            label.BackColor = Color.White;
+            label.ForeColor = Color.Black;
+        }
     }
 }

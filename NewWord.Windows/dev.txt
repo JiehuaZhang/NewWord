@@ -1,0 +1,687 @@
+var ShopFinder = ShopFinder || {};
+
+// ================================================================
+// ShopFinder Component: DETAILS
+// ================================================================
+
+ShopFinder.Details = (function () {
+    "use strict";
+
+    let appHtmlId = "widex-shop-finder-details";
+    let shopHtmlId = "widex-shop-description";
+    let model = {};
+    let shop = {};
+
+    // The html template of the app
+    let appHtmlTemplate;
+    let shopHtmlTemplate;
+    let shopimagelink;
+
+    //Global variables
+    var shopPhoneNumbers = '';
+    // Map
+    let map;
+    let infoWindow;
+    let widexMarkers = {};
+
+    // References to other js files
+    let SvgService = ShopFinder.SvgService;
+    let ApiService = ShopFinder.ApiService;
+    let MapService = ShopFinder.MapService;
+
+    // Class names to toggle with js
+    let classNames = {
+        active: 'active',
+        hidden: 'hidden',
+        loading: 'loading',
+        loadingDone: 'loading-done',
+        scForm: "sc-shopfinder-form"
+    };
+
+    // Element selectors for DOM elements
+    let elementSelectors = {
+        componentWrapper: 'js-shop-details-component',
+        submitButton: 'scfSubmitButton',
+        backButton: 'js-shop-details-back-button',
+        form: 'js-shopshop-details-form',
+        foreignForm: 'widex-shop-finder-details-form',
+        map: 'js-shop-details-map',
+        overlay: 'js-shop-details-overlay',
+        overlayContentWrapper: 'js-shop-details-overlay-content-wrapper',
+        overlayContent: 'js-shop-details-overlay-content',
+        overlayCloseButton: 'js-shop-details-overlay-close-button'
+    };
+
+
+    // Object to store our DOM references
+    let dom = {};
+
+    let defers = {
+        map: $.Deferred(),
+        shop: $.Deferred()
+    };
+
+
+    // METHODS
+    // ============================================================
+
+    /**
+     * Set up DOM elements and cache references for future use
+     * @param {boolean} showBookingForm Show booking form on page
+     * @return {void}
+     */
+    function setupDom(showBookingForm) {
+        dom.componentWrapper = document.getElementById(elementSelectors.componentWrapper);
+        dom.submitButton = document.getElementsByClassName(elementSelectors.submitButton)[0];
+        dom.backButton = document.getElementById(elementSelectors.backButton);
+        dom.overlay = document.getElementById(elementSelectors.overlay);
+        dom.form = document.getElementById(elementSelectors.form);
+        dom.overlayContentWrapper = document.getElementById(elementSelectors.overlayContentWrapper);
+        dom.overlayContent = document.getElementById(elementSelectors.overlayContent);
+        var scForm = document.getElementById(elementSelectors.foreignForm);
+        if (scForm.children.length === 0 || !showBookingForm) {
+            dom.form.parentNode.removeChild(dom.form);
+            scForm.parentNode.removeChild(scForm);
+        } else {
+            scForm.style.display = "block";
+            dom.form.appendChild(scForm);
+        }
+        var sitecoreForm = scForm.getElementsByClassName("scfForm");
+        if (sitecoreForm && sitecoreForm.length > 0) {
+            sitecoreForm[0].setAttribute("class", sitecoreForm[0].getAttribute("class") + " " + classNames.scForm);
+        }
+        dom.head = document.getElementsByTagName('head')[0];
+    }
+
+    // Form submit
+    function submitAppontmentForm() {
+        var overlayContent;
+
+        // Check if form is valid, wait for response from server        
+        // If success
+        overlayContent = `
+            <div class="shop-finder-overlay-success-content">
+                <div class="shop-finder-overlay__text">[Vi har modtaget din booking til høreprøve],<br>hos ${shop.title}</div>
+                    <div class="shop-finder-success-image">${SvgService.widexCheckmarkCircle}</div>
+                <div class="shop-finder-overlay__text">[Du vil høre fra os snarest]</div>
+                <button type="button" class="shop-finder-overlay__button" id="${elementSelectors.overlayCloseButton}">[Luk vinduet]</button>
+            </div>
+        `;
+
+        showOverlay(overlayContent);
+    }
+
+    // Show overlay
+    function showOverlay(content) {
+        dom.overlay.classList.add(classNames.active);
+        dom.overlayContent.innerHTML = content;
+        dom.overlayCloseButton = document.getElementById(elementSelectors.overlayCloseButton);
+        dom.overlay.addEventListener('click', closeOverlay);
+        dom.overlayCloseButton.addEventListener('click', closeOverlay);
+        dom.overlayContentWrapper.addEventListener('click', (e) => { e.stopPropagation(); });
+    }
+
+    // Close overlay
+    function closeOverlay() {
+        dom.overlay.classList.remove(classNames.active);
+        dom.overlay.removeEventListener('click', closeOverlay);
+        dom.overlayCloseButton.removeEventListener('click', closeOverlay);
+        dom.overlayContentWrapper.removeEventListener('click', null);
+    }
+
+    function googleReady() {
+        // Custom markers
+        widexMarkers = MapService.getMarkers();
+        $.when(defers.shop).done(() => {
+            initMap();
+        });
+    }
+
+    // MAP
+    function initMap() {
+        var mapMarkerContent = `
+            <div class="shop-finder__map-window">
+                <b>${shop.title}</b>
+                <br>
+                <div>${shop.addressString}</div>
+                <a href="${shop.directionsLink}" target="_blank">${model.RouteLinkLabel}</a>
+            </div>
+        `;
+
+        var mapLocation = { lat: shop.latitude, lng: shop.longitude };
+        var markerIcon;
+
+        infoWindow = new google.maps.InfoWindow();
+        var theStyle = MapService.mapStyles;
+        if (MapService.isCustomRetailWebsite == "japan") {
+            theStyle = '';
+        }      
+
+        const mapSettings = {
+            styles: theStyle,
+            zoom: model.ZoomLevel || 12,
+            mapTypeControl: false,
+            streetViewControl: false,
+            center: mapLocation
+        };
+
+        map = new google.maps.Map(document.getElementById(elementSelectors.map), mapSettings);
+
+        if (shop.priority) {
+            markerIcon = widexMarkers.widexPrioritizedMarker;
+        } else {
+            markerIcon = widexMarkers.widexStandardMarker;
+        }
+
+        var marker = new google.maps.Marker({
+            position: mapLocation,
+            icon: markerIcon,
+            labelContent: mapMarkerContent
+        });
+
+        marker.setMap(map);
+
+        infoWindow.setContent(marker.labelContent);
+        infoWindow.open(map, marker);
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infoWindow.open(map, marker);
+        });
+
+        defers.map.resolve();
+    }
+
+    function GetAdditionalOpeningHoursText() {
+        var additionalNoteForOpeningHoursHtml = '';
+        if (shop.additionalNoteForOpeningHours != undefined && shop.additionalNoteForOpeningHours != null && shop.additionalNoteForOpeningHours != "") {
+            additionalNoteForOpeningHoursHtml += `
+                <div class="shop-details__additional-notes-opening-hours-item">                    
+                    ${shop.additionalNoteForOpeningHours}
+                </div>
+            `;
+        }
+        return additionalNoteForOpeningHoursHtml;
+    }
+
+    function GetAdditionalNote() {
+        var additionalNoteForAllShopsHtml = '';
+        if (model.AdditionalNoteForAllShops != undefined && model.AdditionalNoteForAllShops != null && model.AdditionalNoteForAllShops != "") {
+            additionalNoteForAllShopsHtml += `
+                <div class="shop-details__additional-notes-opening-hours-item">                    
+                    ${model.AdditionalNoteForAllShops}
+                </div>
+            `;
+        }
+        return additionalNoteForAllShopsHtml;
+    }
+     
+    // Create component template
+    function componentTemplate() {
+        var loader_class = "shop-finder__loader";
+        var goBackButtonStyle_class = "shop-details__button_color";
+        var emailDisplay = "hide";
+        var mailIconToDisplay = "Widex";
+        if (`${model.IsbloomStylingRequired}` === "true") {
+            loader_class = "shop-finder__loader-retail";
+            goBackButtonStyle_class = "shop-details__button_color_retail";
+            mailIconToDisplay = "BloomRetail";
+        }
+        var contactEmailHtml = "";
+        if (shop.contactEmail !== "" && shop.contactEmail != null) {
+            emailDisplay = "";        
+            contactEmailHtml = `<img src="/Components/Project/Design/Dist/${mailIconToDisplay}/images/icon_mail.png" width="32" style="margin-right:5px">` +
+                `<a href="mailto:${shop.contactEmail}?subject=${shop.title}: ${model.FormHeading}" class="shop-details__map-directions-link">${model.SendEmailLabel}</a>`;
+        }
+        var faxNumber = "";
+        if (shop.fax != null && shop.fax != "") {
+            faxNumber = "<div class=\"shop-details__info__text\">" + shop.fax + "</div>";
+        }
+        var additionalOpeningText = GetAdditionalOpeningHoursText();
+        var additionalNoteTextForAllShops = GetAdditionalNote();
+
+        var phoneNumberHtml = "";
+        if (shopPhoneNumbers !== "" && shopPhoneNumbers != null) {            
+            phoneNumberHtml = `<span>${model.PhoneLabel}</span><a href="tel:${shopPhoneNumbers}">${shopPhoneNumbers}</a>`;
+        }
+
+        appHtmlTemplate = `
+            
+            <div class="shop-details-component ${classNames.loading}" id="${elementSelectors.componentWrapper}">
+                <div class="shop-details__wrapper">
+                    <div class="shop-details__wrapper-column shop-details__content">
+                        <a href="${model.backLink}" id="js-shop-details-back-button" class="shop-details__button shop-details__back-button ${goBackButtonStyle_class} ${model.backLink ? "" : "hidden"}">${SvgService.widexArrowLeft} ${model.BackToSearchResult}</a>
+                        <div class="shop-details__info">
+                            <div class="shop-details__info-primary">
+                                <h1 class="shop-details__info-primary__header">${shop.title}</h1>
+                                <div class="shop-details__info__text">
+                                    ${phoneNumberHtml}                                
+                                </div>
+                                ${faxNumber}
+                                <div class="shop-details__info__text">${shop.addressString}</div>
+                                <div class="${emailDisplay}">
+                                    ${contactEmailHtml}
+                                </div>
+                                <a href="${shop.directionsLink}" class="shop-details__map-directions-link" target="_blank">${model.RouteLinkLabel}</a>
+                            </div>
+                            <div class="shop-details__info-secondary">
+                                <h2 class="shop-details__info-secondary__header ${(shop.openingHoursHtml === "" && additionalOpeningText === "" && additionalNoteText ==="") ? classNames.hidden : ""}">${model.OpeningHoursLabel}</h2>
+                                <div class="shop-details__opening-hours">${shop.openingHoursHtml}</div>
+                                 ${additionalNoteTextForAllShops}                                          
+                                ${additionalOpeningText}
+                            </div>
+                        </div>
+                        <div class="shop-details__appointment" id="${elementSelectors.form}">                            
+                            <h3 class="shop-details__appointment-header">${SvgService.widexHeadphones} ${model.FormHeading}</h3>
+                       </div>
+                    </div>
+                    <div class="shop-details__wrapper-column shop-details__map" id="${elementSelectors.map}">MAP</div>
+                </div>
+
+                <div class="shop-finder__overlay" id="${elementSelectors.overlay}">
+                    <div class="shop-finder__overlay__content-wrapper" id="${elementSelectors.overlayContentWrapper}">
+                        <div class="shop-finder__overlay__content" id="${elementSelectors.overlayContent}"></div>
+                    </div>
+                </div>
+
+                <div class="shop-finder__loader-overlay">
+                    <div class ="${loader_class}"></div>
+                </div>
+            </div>
+            
+        `;
+
+        return appHtmlTemplate;
+    }
+
+    function shopDescriptionTemplate() {
+      
+        if (shop.links.length > 0) {
+            for (var i = 0; i < shop.links.length; i++) {
+                if (shop.links[i].rel === "shopimage") {
+                    shopimagelink = shop.links[i].href;
+                }
+            }
+        }
+        if (!shopimagelink) {
+            if (shop.isRetail) {
+               shopimagelink = "/-/media/components/domain/shopfinder/store-default-images/bloom.jpg";
+            } else {
+               shopimagelink = "/-/media/components/domain/shopfinder/store-default-images/widex.jpg";
+            }
+        }
+
+        var retailColorCode = "";
+        if (`${model.IsbloomStylingRequired}` === "true") {
+            retailColorCode = "retail-text-color";
+        }
+
+        var headerhtml1 ="";
+        var descriptionhtml1 = "";
+        var headerhtml2 = "";
+        var descriptionhtml2 = "";
+        var headerhtml3 = "";
+        var descriptionhtml3 = "";
+        if (shop.descriptionHeader1 != null && shop.descriptionHeader1 !== "") {
+            headerhtml1 = `<div class="htb-header"><h4>${shop.descriptionHeader1}</h4></div>`;
+        }
+        if (shop.descriptionParagraph1 != null && shop.descriptionParagraph1 !== "") {
+            descriptionhtml1 = `<div class="htb-text">${shop.descriptionParagraph1}</div>`;
+        }
+        if (shop.descriptionHeader2 != null && shop.descriptionHeader2 !=="" ) {
+            headerhtml2 = `<br><div class="htb-header"><h4>${shop.descriptionHeader2}</h4></div>`;
+        }
+        if (shop.descriptionParagraph2 != null && shop.descriptionParagraph2 !=="") {
+            descriptionhtml2 = `<div class="htb-text">${shop.descriptionParagraph2}</div>`;
+        }
+        if (shop.descriptionHeader3 != null && shop.descriptionHeader3 !== "") {
+            headerhtml3 = `<br><div class="htb-header"><h4>${shop.descriptionHeader3}</h4></div>`;
+        }
+        if (shop.description3 != null && shop.description3 !== "") {
+            descriptionhtml3 = `<div class="htb-text">${shop.description3}</div>`;
+        }
+        var detailhtml;
+        detailhtml = headerhtml1 + descriptionhtml1 + headerhtml2 + descriptionhtml2 + headerhtml3 + descriptionhtml3;
+
+        if (detailhtml === ""|| !detailhtml) return "";
+
+        shopHtmlTemplate = `
+        <section>
+              <div class="container">
+            <div class="row placeholder-50">
+
+                <div class="col-sm-6">
+
+                    <div class="placeholder">
+
+                        <div class ="htb  text-Left ${retailColorCode}" id="shop-detail-description">
+                            ${detailhtml}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="placeholder">
+                        <div class="image">
+                            <div><a><img src="${shopimagelink}?w=585" alt="shopimage"></a>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </section>
+        `;
+        return shopHtmlTemplate;
+    }
+     
+    function formatShopData(data) {
+        shop = data;
+        var openingHoursHtml = '';
+        for (var i = 0; i < shop.openingHoursCollection.length; i++) {
+            if (getCookie("siteInfo")==="retail") {
+                if (shop.openingHoursCollection[i].to == null || shop.openingHoursCollection[i].to == "") {
+                    openingHoursHtml += `
+                 <div class="shop-details__opening-hours-item">
+                    <div class="shop-details__opening-hours-item__day">${model.DaysLocale[shop.openingHoursCollection[i].dayOfWeek]}</div>
+                    <div class="shop-details__opening-hours-item__hours">${shop.openingHoursCollection[i].from}</div>
+                </div>
+                   `;
+                } else{
+                    openingHoursHtml += `
+                <div class="shop-details__opening-hours-item">
+                    <div class="shop-details__opening-hours-item__day">${model.DaysLocale[shop.openingHoursCollection[i].dayOfWeek]}</div>
+                    <div class="shop-details__opening-hours-item__hours">${shop.openingHoursCollection[i].from} - ${shop.openingHoursCollection[i].to}</div>
+                `;
+                    if (shop.openingHoursCollection[i].from2 != null &&
+                        shop.openingHoursCollection[i].to2 != null &&
+                        shop.openingHoursCollection[i].from2 != "" &&
+                        shop.openingHoursCollection[i].to2 != "") {
+                        openingHoursHtml += `
+                     <div class="shop-details__opening-hours-item__hours">${shop.openingHoursCollection[i].from2} - ${shop.openingHoursCollection[i].to2}</div>
+                `;
+                    } else if (shop.openingHoursCollection[i].from2 != null &&
+                        shop.openingHoursCollection[i].from2 != "" &&
+                        (shop.openingHoursCollection[i].to2 == null ||
+                            shop.openingHoursCollection[i].to2 == "")) {
+                        openingHoursHtml += `
+                     <div class="shop-details__opening-hours-item__hours">${shop.openingHoursCollection[i].from2}</div>
+                `;
+                    }
+                    openingHoursHtml += '</div>';
+
+                }
+            } else {
+                   openingHoursHtml += `
+                <div class="shop-details__opening-hours-item">
+                    <div class="shop-details__opening-hours-item__day">${model.DaysLocale[shop.openingHoursCollection[i].dayOfWeek]}</div>
+                    <div class="shop-details__opening-hours-item__hours">${shop.openingHoursCollection[i].from} - ${shop.openingHoursCollection[i].to}</div>
+                `;
+                if (shop.openingHoursCollection[i].from2 != null &&
+                    shop.openingHoursCollection[i].to2 != null &&
+                    shop.openingHoursCollection[i].from2 != "" &&
+                    shop.openingHoursCollection[i].to2 != "") {
+                    openingHoursHtml += `
+                     <div class="shop-details__opening-hours-item__hours">${shop.openingHoursCollection[i].from2} - ${shop.openingHoursCollection[i].to2}</div>
+                `;
+                } else if (shop.openingHoursCollection[i].from2 != null &&
+                    shop.openingHoursCollection[i].from2 != "" &&
+                    (shop.openingHoursCollection[i].to2 == null ||
+                        shop.openingHoursCollection[i].to2 == "")) {
+                    openingHoursHtml += `
+                     <div class="shop-details__opening-hours-item__hours">${shop.openingHoursCollection[i].from2}</div>
+                `;
+                }
+                openingHoursHtml += '</div>';
+            }
+        }
+        
+        var siestaOpeningHoursHtml = '';  
+        if (getCookie("siteInfo") === "retail") {
+            if (shop.openingHoursSiestaTo == null || shop.openingHoursSiestaTo == "") {
+                siestaOpeningHoursHtml += `
+                <div class="shop-details__opening-hours-item">
+                    <div class="shop-details__opening-hours-item__day">${model.SiestaHoursLabel}</div>
+                    <div class="shop-details__opening-hours-item__hours">${shop.openingHoursSiestaFrom}</div>
+                </div>
+            `;
+            } else if (shop.openingHoursSiestaFrom != undefined && shop.openingHoursSiestaFrom != null && shop.openingHoursSiestaFrom != "") {
+                siestaOpeningHoursHtml += `
+                <div class="shop-details__opening-hours-item">
+                    <div class="shop-details__opening-hours-item__day">${model.SiestaHoursLabel}</div>
+                    <div class="shop-details__opening-hours-item__hours">${shop.openingHoursSiestaFrom} - ${shop.openingHoursSiestaTo}</div>
+                </div>
+            `;
+            }
+
+        } else if (shop.openingHoursSiestaFrom != undefined && shop.openingHoursSiestaFrom != null && shop.openingHoursSiestaFrom != "") {
+                    siestaOpeningHoursHtml += `
+                <div class="shop-details__opening-hours-item">
+                    <div class="shop-details__opening-hours-item__day">${model.SiestaHoursLabel}</div>
+                    <div class="shop-details__opening-hours-item__hours">${shop.openingHoursSiestaFrom} - ${shop.openingHoursSiestaTo}</div>
+                </div>
+            `;
+        }
+        shop.openingHoursHtml = openingHoursHtml + siestaOpeningHoursHtml;
+
+        /*retail sites have differen option for google links. wholesales always make use of the the else with /dir/*/
+        if (shop.customGoogleLink != null && shop.customGoogleLink != "") {
+            shop.directionsLink = shop.customGoogleLink;
+        }
+        else if (shop.useGooglePlaceLink) {
+            var query = GenerateGooglePlaceLink(data);
+            shop.directionsLink = `https://www.google.com/maps/search/?api=1&query=${query}`;
+        } else {
+            // Format direcitions link
+            shop.directionsLink = `https://www.google.com/maps/dir/?api=1&destination=${shop.latitude}%2C${shop.longitude}`;
+        }
+
+
+        // Format telephone string
+        shopPhoneNumbers = shop.contactPhone;
+        var isUpdated = CheckForFaxLabelInPhoneString();
+        if (!isUpdated) {
+            shop.contactPhone = shop.contactPhone === null || shop.contactPhone === "" ? '' : `${model.PhoneLabel} ${shop.contactPhone}`;        
+        }       
+
+        // Format address
+        shop.addressString = MapService.formatShopAddress(data);
+    }
+
+    function GenerateGooglePlaceLink(shop) {
+        var googleQuery = "";
+        if (shop.urlSafeTitle) {
+            googleQuery += shop.urlSafeTitle + ",+";
+        }
+        if (shop.addressLine1) {
+            googleQuery += shop.addressLine1 + "+";                                    
+        }
+        if (shop.addressLine2) {
+            googleQuery += shop.addressLine2 + "+";
+        }
+        if (shop.state) {
+            googleQuery += shop.state + ",+";
+        }
+        if (shop.city) {
+            googleQuery += shop.city + ",+";        
+        }
+        if (shop.postalCode) {
+            googleQuery += shop.postalCode;
+        }        
+        var replacedSpacegoogleQuery = googleQuery.replace(/ /g, '+');
+        return replacedSpacegoogleQuery;
+    }
+
+    function CheckForFaxLabelInPhoneString() {
+        var updated = false;
+        if (shop.fax != null && shop.fax != "") {
+            var faxLabelString = "";
+            var phoneLabelString = "";
+            var faxLabel = model.PhoneLabel.indexOf("|");
+            if (faxLabel > 0) {
+                faxLabelString = model.PhoneLabel.substring(faxLabel + 1);
+                phoneLabelString = model.PhoneLabel.substring(0, faxLabel);
+                shop.fax = `${faxLabelString} ${shop.fax}`;
+                shop.contactPhone = shop.contactPhone === null ? '' : `${phoneLabelString} ${shop.contactPhone}`;
+                updated = true;
+            }
+        } else {
+            if (model.PhoneLabel.indexOf("|") > 0) {
+                model.PhoneLabel = model.PhoneLabel.substring(0, model.PhoneLabel.indexOf("|"));
+                updated = false;
+            }            
+        }
+        return updated;
+    }
+
+    function addStructuredData(shop) {
+        var data = [{
+            "@context": "http://www.schema.org",
+            "@type": "LocalBusiness",
+            "name": shop.title,
+            "telephone": shop.contactPhone,
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": shop.latitude,
+                "longitude": shop.longitude
+            },
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": shop.addressLine1 + (shop.addressLine2 ? ", " + shop.addressLine2 : ""),
+                "addressLocality": shop.city,
+                "addressRegion": shop.addressLine3,
+                "postalCode": shop.postalCode,
+                "addressCountry": shop.country
+            }
+        }, {
+            "@context": "http://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "name": model.HomeLabel,
+                "item": model.HomeUrl
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": model.ShopFinderLabel,
+                "item": model.ShopFinderUrl
+            }, {
+                "@type": "ListItem",
+                "position": 3,
+                "name": shop.title,
+                "item": window.location.href
+            }
+            ]
+        }];
+        for (var i = 0; i < data.length; i++) {
+            let script = document.createElement('script');
+            script.type = "application/ld+json";
+            script.innerHTML = JSON.stringify(data[i]);
+            document.getElementsByTagName('head')[0].appendChild(script);
+        }
+    }
+
+    // App Loader
+    function showAppLoader(value) {
+        if (value) {
+            dom.componentWrapper.classList.add(classNames.loading);
+        } else {
+            setTimeout(() => {
+                dom.componentWrapper.classList.remove(classNames.loading);
+            }, 500);
+        }
+    }
+
+    // EVENT LISTENERS
+    // ============================================================
+
+    // Listen for when app components are ready
+    $.when(defers.map, defers.shop).done(() => {
+        showAppLoader(false);
+    });
+
+    function addEventListeners() {
+        if (dom.submitButton) {
+            dom.submitButton.addEventListener('click', function () {
+                showAppLoader(true);
+            });
+        }
+    }
+
+    // INITIALIZE MAIN
+    function initialize() {
+
+        // Get model from backend
+        model = window.shopDetailsModel;
+        model.backLink = WidexTools.Utilities.getCookie(ShopFinder.Constants.cookies.COOKIENAME_BACKLINK);
+        if (model.backLink) {
+            WidexTools.Utilities.setCookie(ShopFinder.Constants.cookies.COOKIENAME_BACKLINK, "", -1);
+        } else {
+            model.backLink = model.ShopFinderUrl;
+        }
+        if (model.MarkerGradientStart) {
+            MapService.setMapPinGradient(model.MarkerGradientStart, model.MarkerGradientEnd || model.MarkerGradientStart);
+        }
+        // Add custom tag and replace it with our code
+        let app = document.getElementById(appHtmlId);
+        let shopdescription = document.getElementById(shopHtmlId);
+        if (typeof google === "object" && typeof google.maps === "object") {
+            googleReady();
+        } else {
+            WidexTools.Utilities.loadScript(
+                "https://maps.googleapis.com/maps/api/js?key=AIzaSyBP_Z-eKmhB_BQtPPPtEiuyP-3bxL0UEXs&libraries=places,geometry,v=3.5&callback=ShopFinder.Details.googleReady",
+                void 0, true);
+        }
+        ApiService.getShopDetails(model.ShopId, model.ShopCountry, model.ShopZip, model.ShopTitle)
+            .then((data) => {
+                addStructuredData(data);
+                formatShopData(data);
+                if (app) {
+                    app.innerHTML = componentTemplate();
+                    shopdescription.innerHTML = shopDescriptionTemplate();
+                    // Setup DOM references
+                    setupDom(data.bookAppointmentEmail);
+                    // Show loader
+                    showAppLoader(true);
+                    // Add event listeners
+                    addEventListeners();
+                } else {
+                    console.warn('Widex shop finder component not initialized: No matching html tag with id="' + appHtmlId + '" found');
+                    return;
+                }
+
+                defers.shop.resolve();
+
+            }).catch(e => {
+                console.log(e);
+            });
+    }
+
+    //READ COOKIES
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+
+    return {
+        initialize: initialize,
+        googleReady: googleReady
+    };
+
+})();
+
+// INITIALIZE COMPONENT
+document.addEventListener("DOMContentLoaded", () => {
+    ShopFinder.Details.initialize();
+});

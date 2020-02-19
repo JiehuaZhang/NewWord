@@ -30,6 +30,8 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCard = new System.Windows.Forms.TabPage();
+            this.lblNext = new System.Windows.Forms.Label();
+            this.lblPrevious = new System.Windows.Forms.Label();
             this.lblIndex = new System.Windows.Forms.Label();
             this.lblBookName = new System.Windows.Forms.Label();
             this.lblDifficulty = new System.Windows.Forms.Label();
@@ -76,6 +78,8 @@
             // 
             // tabCard
             // 
+            this.tabCard.Controls.Add(this.lblNext);
+            this.tabCard.Controls.Add(this.lblPrevious);
             this.tabCard.Controls.Add(this.lblIndex);
             this.tabCard.Controls.Add(this.lblBookName);
             this.tabCard.Controls.Add(this.lblDifficulty);
@@ -91,6 +95,32 @@
             this.tabCard.TabIndex = 0;
             this.tabCard.Text = "Card";
             this.tabCard.UseVisualStyleBackColor = true;
+            // 
+            // lblNext
+            // 
+            this.lblNext.AutoSize = true;
+            this.lblNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNext.Location = new System.Drawing.Point(227, 40);
+            this.lblNext.Name = "lblNext";
+            this.lblNext.Size = new System.Drawing.Size(16, 16);
+            this.lblNext.TabIndex = 15;
+            this.lblNext.Text = ">";
+            this.lblNext.Click += new System.EventHandler(this.LblNext_Click);
+            this.lblNext.MouseLeave += new System.EventHandler(this.LabelChangeColor_MouseLeave);
+            this.lblNext.MouseHover += new System.EventHandler(this.LabelChangeColor_MouseHover);
+            // 
+            // lblPrevious
+            // 
+            this.lblPrevious.AutoSize = true;
+            this.lblPrevious.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPrevious.Location = new System.Drawing.Point(6, 40);
+            this.lblPrevious.Name = "lblPrevious";
+            this.lblPrevious.Size = new System.Drawing.Size(16, 16);
+            this.lblPrevious.TabIndex = 14;
+            this.lblPrevious.Text = "<";
+            this.lblPrevious.Click += new System.EventHandler(this.LblPrevious_Click);
+            this.lblPrevious.MouseLeave += new System.EventHandler(this.LabelChangeColor_MouseLeave);
+            this.lblPrevious.MouseHover += new System.EventHandler(this.LabelChangeColor_MouseHover);
             // 
             // lblIndex
             // 
@@ -425,5 +455,7 @@
         private System.Windows.Forms.Label lblBookName;
         private System.Windows.Forms.Label lblIndex;
         private System.Windows.Forms.Label lblCurrentBook;
+        private System.Windows.Forms.Label lblPrevious;
+        private System.Windows.Forms.Label lblNext;
     }
 }
