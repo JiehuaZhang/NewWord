@@ -131,6 +131,7 @@ namespace NewWord.Windows
             lblDifficulty.Text = new string('*', _words[_count].Difficulty);
             lblHidden.Text = _words[_count].Meaning;
             lblBookName.Text = _currentBook;
+            lblIndex.Text = (_count+1) + "/" + _words.Count;
             btnYes.Visible = true;
             btnYes.Text = Constants.FormText.Yes;
             btnNo.Text = Constants.FormText.No;
@@ -138,6 +139,7 @@ namespace NewWord.Windows
             lblDifficulty.Visible = true;
             btnAgain.Visible = false;
             lblHidden.Visible = false;
+            lblIndex.Visible = true;
             btnNo.Enabled = true;
         }
         private void TheEnd()
@@ -146,6 +148,7 @@ namespace NewWord.Windows
             btnYes.Visible = false;
             lblHidden.Visible = false;
             lblDifficulty.Visible = false;
+            lblIndex.Visible = false;
             txtWord.ForeColor = Color.Black;
             txtWord.Text = Constants.FormText.TheEnd;
             btnAgain.Visible = _words.Count > 0;
@@ -156,6 +159,7 @@ namespace NewWord.Windows
             btnYes.Visible = false;
             btnAgain.Visible = false;
             lblDifficulty.Visible = false;
+            lblIndex.Visible = false;
             txtWord.Text = Constants.FormText.NoWord;
         }
         private void CardBeginning()
@@ -306,6 +310,7 @@ namespace NewWord.Windows
             }
             treeBooks.Nodes.Clear();
             GetAllBooks();
+            lblCurrentBook.Text = _currentBook;
         }
 
 
@@ -315,6 +320,7 @@ namespace NewWord.Windows
             _words = FileManager.GetWordList(Constants.Book.BookPath + _currentBook);
             CardBeginning();
             tabControl1.SelectedTab = tabCard;
+            lblCurrentBook.Text = _currentBook;
         }
 
         #endregion
@@ -332,8 +338,12 @@ namespace NewWord.Windows
                     nodeList.Add(new TreeNode(file));
                 }
 
-                _words = FileManager.GetWordList(Constants.Book.BookPath + files[0]);
-                _currentBook = files[0];
+                if (string.IsNullOrEmpty(_currentBook))
+                {
+                    _words = FileManager.GetWordList(Constants.Book.BookPath + files[0]);
+                    _currentBook = files[0];
+                }
+                    
             }
 
             var treeNode = new TreeNode("Books", nodeList.ToArray());

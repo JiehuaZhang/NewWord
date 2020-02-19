@@ -30,6 +30,8 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCard = new System.Windows.Forms.TabPage();
+            this.lblIndex = new System.Windows.Forms.Label();
+            this.lblBookName = new System.Windows.Forms.Label();
             this.lblDifficulty = new System.Windows.Forms.Label();
             this.btnAgain = new System.Windows.Forms.Button();
             this.lblHidden = new System.Windows.Forms.Label();
@@ -50,8 +52,8 @@
             this.lblArrange1 = new System.Windows.Forms.Label();
             this.btnArrange1 = new System.Windows.Forms.Button();
             this.tabBooks = new System.Windows.Forms.TabPage();
+            this.lblCurrentBook = new System.Windows.Forms.Label();
             this.treeBooks = new System.Windows.Forms.TreeView();
-            this.lblBookName = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabCard.SuspendLayout();
             this.tabAdd.SuspendLayout();
@@ -74,6 +76,7 @@
             // 
             // tabCard
             // 
+            this.tabCard.Controls.Add(this.lblIndex);
             this.tabCard.Controls.Add(this.lblBookName);
             this.tabCard.Controls.Add(this.lblDifficulty);
             this.tabCard.Controls.Add(this.btnAgain);
@@ -88,6 +91,23 @@
             this.tabCard.TabIndex = 0;
             this.tabCard.Text = "Card";
             this.tabCard.UseVisualStyleBackColor = true;
+            // 
+            // lblIndex
+            // 
+            this.lblIndex.AutoSize = true;
+            this.lblIndex.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.lblIndex.Location = new System.Drawing.Point(20, 159);
+            this.lblIndex.Name = "lblIndex";
+            this.lblIndex.Size = new System.Drawing.Size(0, 13);
+            this.lblIndex.TabIndex = 13;
+            // 
+            // lblBookName
+            // 
+            this.lblBookName.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.lblBookName.Location = new System.Drawing.Point(140, 159);
+            this.lblBookName.Name = "lblBookName";
+            this.lblBookName.Size = new System.Drawing.Size(87, 23);
+            this.lblBookName.TabIndex = 12;
             // 
             // lblDifficulty
             // 
@@ -156,7 +176,7 @@
             this.txtWord.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtWord.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtWord.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtWord.Location = new System.Drawing.Point(23, 32);
             this.txtWord.Name = "txtWord";
             this.txtWord.Size = new System.Drawing.Size(204, 24);
@@ -324,6 +344,7 @@
             // 
             // tabBooks
             // 
+            this.tabBooks.Controls.Add(this.lblCurrentBook);
             this.tabBooks.Controls.Add(this.treeBooks);
             this.tabBooks.Location = new System.Drawing.Point(4, 22);
             this.tabBooks.Name = "tabBooks";
@@ -334,6 +355,16 @@
             this.tabBooks.UseVisualStyleBackColor = true;
             this.tabBooks.Enter += new System.EventHandler(this.Book_Fresh);
             // 
+            // lblCurrentBook
+            // 
+            this.lblCurrentBook.AutoSize = true;
+            this.lblCurrentBook.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblCurrentBook.Location = new System.Drawing.Point(140, 171);
+            this.lblCurrentBook.Name = "lblCurrentBook";
+            this.lblCurrentBook.Size = new System.Drawing.Size(35, 13);
+            this.lblCurrentBook.TabIndex = 2;
+            this.lblCurrentBook.Text = "label1";
+            // 
             // treeBooks
             // 
             this.treeBooks.Location = new System.Drawing.Point(14, 6);
@@ -341,14 +372,6 @@
             this.treeBooks.Size = new System.Drawing.Size(207, 162);
             this.treeBooks.TabIndex = 1;
             this.treeBooks.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Book_Select);
-            // 
-            // lblBookName
-            // 
-            this.lblBookName.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.lblBookName.Location = new System.Drawing.Point(140, 159);
-            this.lblBookName.Name = "lblBookName";
-            this.lblBookName.Size = new System.Drawing.Size(87, 23);
-            this.lblBookName.TabIndex = 12;
             // 
             // CombinedWordCard
             // 
@@ -369,6 +392,7 @@
             this.tabArrange.ResumeLayout(false);
             this.tabArrange.PerformLayout();
             this.tabBooks.ResumeLayout(false);
+            this.tabBooks.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -399,5 +423,7 @@
         private System.Windows.Forms.TabPage tabBooks;
         private System.Windows.Forms.TreeView treeBooks;
         private System.Windows.Forms.Label lblBookName;
+        private System.Windows.Forms.Label lblIndex;
+        private System.Windows.Forms.Label lblCurrentBook;
     }
 }
