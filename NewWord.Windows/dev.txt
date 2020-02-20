@@ -264,7 +264,7 @@ ShopFinder.Details = (function () {
                                 <a href="${shop.directionsLink}" class="shop-details__map-directions-link" target="_blank">${model.RouteLinkLabel}</a>
                             </div>
                             <div class="shop-details__info-secondary">
-                                <h2 class="shop-details__info-secondary__header ${(shop.openingHoursHtml === "" && additionalOpeningText === "" && additionalNoteText ==="") ? classNames.hidden : ""}">${model.OpeningHoursLabel}</h2>
+                                <h2 class="shop-details__info-secondary__header ${(shop.openingHoursHtml === "" && additionalOpeningText === "" && additionalNoteTextForAllShops ==="") ? classNames.hidden : ""}">${model.OpeningHoursLabel}</h2>
                                 <div class="shop-details__opening-hours">${shop.openingHoursHtml}</div>
                                  ${additionalNoteTextForAllShops}                                          
                                 ${additionalOpeningText}
@@ -371,20 +371,20 @@ ShopFinder.Details = (function () {
         `;
         return shopHtmlTemplate;
     }
-     
+
     function formatShopData(data) {
         shop = data;
         var openingHoursHtml = '';
         for (var i = 0; i < shop.openingHoursCollection.length; i++) {
-            if (getCookie("siteInfo")==="retail") {
+            if (getCookie("siteInfo") === "retail") {
                 if (shop.openingHoursCollection[i].to == null || shop.openingHoursCollection[i].to == "") {
                     openingHoursHtml += `
-                 <div class="shop-details__opening-hours-item">
+                <div class="shop-details__opening-hours-item">
                     <div class="shop-details__opening-hours-item__day">${model.DaysLocale[shop.openingHoursCollection[i].dayOfWeek]}</div>
                     <div class="shop-details__opening-hours-item__hours">${shop.openingHoursCollection[i].from}</div>
                 </div>
                    `;
-                } else{
+                } else {
                     openingHoursHtml += `
                 <div class="shop-details__opening-hours-item">
                     <div class="shop-details__opening-hours-item__day">${model.DaysLocale[shop.openingHoursCollection[i].dayOfWeek]}</div>
@@ -409,7 +409,7 @@ ShopFinder.Details = (function () {
 
                 }
             } else {
-                   openingHoursHtml += `
+                openingHoursHtml += `
                 <div class="shop-details__opening-hours-item">
                     <div class="shop-details__opening-hours-item__day">${model.DaysLocale[shop.openingHoursCollection[i].dayOfWeek]}</div>
                     <div class="shop-details__opening-hours-item__hours">${shop.openingHoursCollection[i].from} - ${shop.openingHoursCollection[i].to}</div>
@@ -432,8 +432,8 @@ ShopFinder.Details = (function () {
                 openingHoursHtml += '</div>';
             }
         }
-        
-        var siestaOpeningHoursHtml = '';  
+
+        var siestaOpeningHoursHtml = '';
         if (getCookie("siteInfo") === "retail") {
             if (shop.openingHoursSiestaTo == null || shop.openingHoursSiestaTo == "") {
                 siestaOpeningHoursHtml += `
@@ -452,7 +452,7 @@ ShopFinder.Details = (function () {
             }
 
         } else if (shop.openingHoursSiestaFrom != undefined && shop.openingHoursSiestaFrom != null && shop.openingHoursSiestaFrom != "") {
-                    siestaOpeningHoursHtml += `
+            siestaOpeningHoursHtml += `
                 <div class="shop-details__opening-hours-item">
                     <div class="shop-details__opening-hours-item__day">${model.SiestaHoursLabel}</div>
                     <div class="shop-details__opening-hours-item__hours">${shop.openingHoursSiestaFrom} - ${shop.openingHoursSiestaTo}</div>
@@ -478,12 +478,13 @@ ShopFinder.Details = (function () {
         shopPhoneNumbers = shop.contactPhone;
         var isUpdated = CheckForFaxLabelInPhoneString();
         if (!isUpdated) {
-            shop.contactPhone = shop.contactPhone === null || shop.contactPhone === "" ? '' : `${model.PhoneLabel} ${shop.contactPhone}`;        
-        }       
+            shop.contactPhone = shop.contactPhone === null || shop.contactPhone === "" ? '' : `${model.PhoneLabel} ${shop.contactPhone}`;
+        }
 
         // Format address
         shop.addressString = MapService.formatShopAddress(data);
     }
+
 
     function GenerateGooglePlaceLink(shop) {
         var googleQuery = "";
