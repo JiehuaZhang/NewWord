@@ -48,12 +48,39 @@ namespace NewWords.Core.Manager
             file.Close();
             return false;
         }
+        public void SaveBooks(List<string> bookStringList, string bookPath)
+        {
+            for (int i = 0; i < bookStringList.Count; i++)
+            {
+                SaveJsonToFile(bookPath + "-" + i + ".txt", bookStringList[i]);
+            }
+        }
 
         public bool CheckPathIfExistThenCreate(string path)
         {
             if (Directory.Exists(path)) return true;
             Directory.CreateDirectory(path);
             return false;
+        }
+
+        public void MergeWordToAll()
+        {
+            var files = GetFiles();
+            var sb = new StringBuilder();
+            foreach (var file in files)
+            {
+                sb.Append(GetWordString(Constants.Book.BookPath + file));
+            }
+            if (!string.IsNullOrEmpty(sb.ToString()))
+                SaveJsonToFile(Constants.Book.AllWordFilePath, sb.ToString());
+        }
+
+        public void DeleteAllFilesInFolder(DirectoryInfo directoryInfo)
+        {
+            foreach (FileInfo file in directoryInfo.GetFiles())
+            {
+                file.Delete();
+            }
         }
     }
 }

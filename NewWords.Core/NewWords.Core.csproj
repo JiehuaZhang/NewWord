@@ -45,11 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="Manager\CollectCardManager.cs" />
+    <Compile Include="Manager\WordsManager.cs" />
+    <Compile Include="Manager\DifficultyBookSplit.cs" />
     <Compile Include="Manager\FileManager.cs" />
     <Compile Include="Manager\JsonManager.cs" />
     <Compile Include="Manager\TextManager.cs" />
-    <Compile Include="Manager\WordArrangementManager.cs" />
+    <Compile Include="Manager\ReadCountBookSplit.cs" />
     <Compile Include="Manager\WordCardManager.cs" />
     <Compile Include="Model\Difficulties.cs" />
     <Compile Include="Model\WordCard.cs" />

@@ -19,6 +19,7 @@ ShopFinder.Details = (function () {
 
     //Global variables
     var shopPhoneNumbers = '';
+   
     // Map
     let map;
     let infoWindow;
@@ -190,7 +191,7 @@ ShopFinder.Details = (function () {
 
         defers.map.resolve();
     }
-
+   
     function GetAdditionalOpeningHoursText() {
         var additionalNoteForOpeningHoursHtml = '';
         if (shop.additionalNoteForOpeningHours != undefined && shop.additionalNoteForOpeningHours != null && shop.additionalNoteForOpeningHours != "") {

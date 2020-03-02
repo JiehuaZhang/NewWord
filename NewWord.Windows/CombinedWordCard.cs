@@ -21,9 +21,11 @@ namespace NewWord.Windows
         private int _count = 0;
         private readonly Color _rememberColor = Color.CornflowerBlue;
         private readonly Color _forgotColor = Color.DarkViolet;
-        private static readonly FileManager FileManager = new FileManager();
-        private readonly WordArrangementManager _arrangeManager = new WordArrangementManager(FileManager);
-        private readonly WordCardManager _wordManager = new WordCardManager(FileManager);
+        private static readonly FileManager _fileManager = new FileManager();
+        private static readonly WordsManager _wordsManager = new WordsManager();
+        private readonly ReadCountBookSplit _readCountBookSplit = new ReadCountBookSplit(_fileManager,_wordsManager);
+        private readonly DifficultyBookSplit _difficultyBookSplit = new DifficultyBookSplit(_fileManager, _wordsManager);
+        private readonly WordCardManager _wordCardManager = new WordCardManager(_fileManager);
         private string _currentBook = string.Empty;
 
         public CombinedWordCard()
@@ -43,8 +45,9 @@ namespace NewWord.Windows
         }
         private void Card_Closing(object sender, FormClosingEventArgs e)
         {
-            _arrangeManager.SaveRememberStatus(_words, Constants.Book.BookPath + _currentBook);
-            _arrangeManager.MergeWordToAll();
+            if(_words.Count>0) _fileManager.SaveJsonToFile(Constants.Book.BookPath + _currentBook,_words.ToJsonString());
+            _fileManager.MergeWordToAll();
+            _readCountBookSplit.SplitWordToBooks();
         }
 
         #region Card
@@ -67,15 +70,13 @@ namespace NewWord.Windows
 
         private async void BtnYes_Click(object sender, EventArgs e)
         {
-            if (btnYes.Text != Constants.FormText.Next)
-            {
-                lblHidden.Visible = true;
-                btnYes.Visible = false;
-                btnNo.Visible = false;
-                lblNext.Visible = false;
-                lblPrevious.Visible = false;
-                await Task.Delay(1000);
-            }
+            lblHidden.Visible = true;
+            btnYes.Visible = false;
+            btnNo.Visible = false;
+            lblNext.Visible = false;
+            lblPrevious.Visible = false;
+            _words[_count].Remember = true;
+            await Task.Delay(800);
             _words[_count].Count++;
             if (_count == _words.Count - 1)
             {
@@ -135,9 +136,11 @@ namespace NewWord.Windows
             btnAgain.Visible = false;
             lblHidden.Visible = false;
             lblIndex.Visible = true;
+            lblCount.Visible = true;
             btnNo.Enabled = true;
             lblNext.Visible = true;
             lblPrevious.Visible = _count !=0;
+            lblCount.Text = _words[_count].Count.ToString();
         }
         private void TheEnd()
         {
@@ -148,6 +151,7 @@ namespace NewWord.Windows
             lblIndex.Visible = false;
             lblNext.Visible = false;
             lblPrevious.Visible = false;
+            lblCount.Visible = false;
             txtWord.ForeColor = Color.Black;
             txtWord.Text = Constants.FormText.TheEnd;
             btnAgain.Visible = _words.Count > 0;
@@ -190,7 +194,7 @@ namespace NewWord.Windows
             {
                 _words.Add(word);
             }
-            _wordManager.AddOneWord(word);
+            _wordCardManager.AddOneWord(word);
         }
         private void Difficulty_OnKeyPress(object sender, KeyPressEventArgs e)
         {
@@ -214,7 +218,7 @@ namespace NewWord.Windows
             numDifficulty.Value = 4;
             btnUpdate.Visible = false;
             tabControl1.SelectedTab = tabCard;
-            _arrangeManager.SaveRememberStatus(_words, Constants.Book.BookPath + _currentBook);
+            _fileManager.SaveJsonToFile(Constants.Book.BookPath + _currentBook, _words.ToJsonString());
             ShowWordCard();
         }
 
@@ -235,13 +239,13 @@ namespace NewWord.Windows
 
         private void BtnArrange1_Click(object sender, EventArgs e)
         {
-            _arrangeManager.SaveRememberStatus(_words, Constants.Book.BookPath + _currentBook);
-            _arrangeManager.MergeWordToAll();
-            var allWord = FileManager.GetWordList(Constants.Book.AllWordFilePath);
+            _fileManager.SaveJsonToFile(Constants.Book.BookPath + _currentBook,_words.ToJsonString());
+            _fileManager.MergeWordToAll();
+            var allWord = _fileManager.GetWordList(Constants.Book.AllWordFilePath);
             var rememberWordsString = allWord.Where(x => x.Remember && x.Count >= 50 || x.Difficulty == 0).Select(x=>x).ToList().ToJsonString();
             allWord.RemoveAll(x => x.Remember && x.Count >= 50 || x.Difficulty == 0);
-            FileManager.SaveJsonToFile(Constants.Book.AllWordFilePath, allWord.ToJsonString());
-            _arrangeManager.SplitWordToBooks();
+            _fileManager.SaveJsonToFile(Constants.Book.AllWordFilePath, allWord.ToJsonString());
+            _readCountBookSplit.SplitWordToBooks();
             var rememberWordFilePath = Constants.BuildOkWordBookFilePath();
             if (!File.Exists(rememberWordFilePath) && !string.IsNullOrWhiteSpace(rememberWordsString))
             {
@@ -254,7 +258,7 @@ namespace NewWord.Windows
             if (!string.IsNullOrWhiteSpace(rememberWordsString))
             {
                 File.AppendAllText(rememberWordFilePath, rememberWordsString);
-                _words = FileManager.GetWordList(Constants.Book.BookPath + _currentBook);
+                _words = _fileManager.GetWordList(Constants.Book.BookPath + _currentBook);
                 CardBeginning();
                 lblArrange1.Visible = true;
                 lblArrange1.Text = Constants.BuildArrangeText(Constants.FormText.TaskCompleteText);
@@ -267,24 +271,50 @@ namespace NewWord.Windows
         }
         private void BtnSplitWords_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(_currentBook) && _words.Count>0)    
-                _arrangeManager.SaveRememberStatus(_words, Constants.Book.BookPath + _currentBook);
-            _arrangeManager.MergeWordToAll();
+            if(string.IsNullOrEmpty(_currentBook) && _words.Count>0)
+                _fileManager.SaveJsonToFile(Constants.Book.BookPath + _currentBook, _words.ToJsonString());
+            _fileManager.MergeWordToAll();
+            _readCountBookSplit.SplitWordToBooks();
 
             lblSplit.Text = Constants.BuildArrangeText(Constants.FormText.TaskCompleteText);
             lblSplit.Visible = true;
 
             if(File.Exists(Constants.Book.BookPath + _currentBook))
             { 
-                _words = FileManager.GetWordList(Constants.Book.BookPath + _currentBook);
+                _words = _fileManager.GetWordList(Constants.Book.BookPath + _currentBook);
             }
             else
             {
-                var files = FileManager.GetFiles();
+                var files = _fileManager.GetFiles();
                 _currentBook = files.Length > 0 ? files[0] : string.Empty;
                 _words = string.IsNullOrEmpty(_currentBook)
                     ? new List<NewWords.Core.Model.WordCard>()
-                    : FileManager.GetWordList(Constants.Book.BookPath + files[0]);
+                    : _fileManager.GetWordList(Constants.Book.BookPath + files[0]);
+            }
+            CardBeginning();
+        }
+
+        private void BtnSplitByDifficulty_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_currentBook) && _words.Count > 0)
+                _fileManager.SaveJsonToFile(Constants.Book.BookPath + _currentBook, _words.ToJsonString());
+            _fileManager.MergeWordToAll();
+            _difficultyBookSplit.SplitWordToBooks();
+
+            lblSplityByDifficulty.Text = Constants.BuildArrangeText(Constants.FormText.TaskCompleteText);
+            lblSplityByDifficulty.Visible = true;
+
+            if (File.Exists(Constants.Book.BookPath + _currentBook))
+            {
+                _words = _fileManager.GetWordList(Constants.Book.BookPath + _currentBook);
+            }
+            else
+            {
+                var files = _fileManager.GetFiles();
+                _currentBook = files.Length > 0 ? files[0] : string.Empty;
+                _words = string.IsNullOrEmpty(_currentBook)
+                    ? new List<NewWords.Core.Model.WordCard>()
+                    : _fileManager.GetWordList(Constants.Book.BookPath + files[0]);
             }
             CardBeginning();
         }
@@ -305,7 +335,7 @@ namespace NewWord.Windows
         {
             if (!string.IsNullOrEmpty(_currentBook))
             {
-                _arrangeManager.SaveRememberStatus(_words, Constants.Book.BookPath + _currentBook);
+                _fileManager.SaveJsonToFile(Constants.Book.BookPath + _currentBook, _words.ToJsonString());
             }
             treeBooks.Nodes.Clear();
             GetAllBooks();
@@ -316,7 +346,7 @@ namespace NewWord.Windows
         private void Book_Select(object sender, MouseEventArgs e)
         {
             _currentBook = treeBooks.SelectedNode.Text;
-            _words = FileManager.GetWordList(Constants.Book.BookPath + _currentBook);
+            _words = _fileManager.GetWordList(Constants.Book.BookPath + _currentBook);
             CardBeginning();
             tabControl1.SelectedTab = tabCard;
             lblCurrentBook.Text = _currentBook;
@@ -328,7 +358,7 @@ namespace NewWord.Windows
 
         private void GetAllBooks()
         {
-            var files = FileManager.GetFiles();
+            var files = _fileManager.GetFiles();
             List<TreeNode> nodeList = new List<TreeNode>();
             if (files != null && files.Length > 0)
             {
@@ -339,7 +369,7 @@ namespace NewWord.Windows
 
                 if (string.IsNullOrEmpty(_currentBook))
                 {
-                    _words = FileManager.GetWordList(Constants.Book.BookPath + files[0]);
+                    _words = _fileManager.GetWordList(Constants.Book.BookPath + files[0]);
                     _currentBook = files[0];
                 }
                     
