@@ -19,6 +19,7 @@ namespace NewWord.Windows
     {
         private List<NewWords.Core.Model.WordCard> _words = new List<NewWords.Core.Model.WordCard>();
         private int _count = 0;
+        private bool _isTest = false;
         private readonly Color _rememberColor = Color.CornflowerBlue;
         private readonly Color _forgotColor = Color.DarkViolet;
         private static readonly FileManager _fileManager = new FileManager();
@@ -58,25 +59,40 @@ namespace NewWord.Windows
         {
                 _words[_count].Remember = false;
                 _words[_count].Count++;
-                lblHidden.Visible = true;
+                if (_isTest)
+                    txtWord.Visible = true;
+                else
+                    lblHidden.Visible = true;
                 btnYes.Visible = false;
                 btnNo.Visible = false;
         }
 
         private void BtnAgain_Click(object sender, EventArgs e)
         {
+            _isTest = false;
+            CardBeginning();
+        }
+        private void BtnTest_Click(object sender, EventArgs e)
+        {
+            _isTest = true;
             CardBeginning();
         }
 
         private async void BtnYes_Click(object sender, EventArgs e)
         {
-            lblHidden.Visible = true;
+            if (_isTest)
+                txtWord.Visible = true;
+            else
+                lblHidden.Visible = true;
             btnYes.Visible = false;
             btnNo.Visible = false;
             lblNext.Visible = false;
             lblPrevious.Visible = false;
             _words[_count].Remember = true;
-            await Task.Delay(800);
+            if(_isTest)
+                await Task.Delay(1000);
+            else
+                await Task.Delay(500);
             _words[_count].Count++;
             if (_count == _words.Count - 1)
             {
@@ -134,7 +150,9 @@ namespace NewWord.Windows
             btnNo.Visible = true;
             lblDifficulty.Visible = true;
             btnAgain.Visible = false;
-            lblHidden.Visible = false;
+            btnTest.Visible = false;
+            lblHidden.Visible = _isTest;
+            txtWord.Visible = !_isTest;
             lblIndex.Visible = true;
             lblCount.Visible = true;
             btnNo.Enabled = true;
@@ -155,6 +173,7 @@ namespace NewWord.Windows
             txtWord.ForeColor = Color.Black;
             txtWord.Text = Constants.FormText.TheEnd;
             btnAgain.Visible = _words.Count > 0;
+            btnTest.Visible = _words.Count > 0;
         }
         private void NoNewWord()
         {
@@ -347,6 +366,7 @@ namespace NewWord.Windows
         {
             _currentBook = treeBooks.SelectedNode.Text;
             _words = _fileManager.GetWordList(Constants.Book.BookPath + _currentBook);
+            _isTest = false;
             CardBeginning();
             tabControl1.SelectedTab = tabCard;
             lblCurrentBook.Text = _currentBook;
@@ -400,5 +420,12 @@ namespace NewWord.Windows
             label.BackColor = Color.White;
             label.ForeColor = Color.Black;
         }
+
+        private void LblBookName_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabBooks;
+        }
+
+        
     }
 }

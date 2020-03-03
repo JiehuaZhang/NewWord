@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCard = new System.Windows.Forms.TabPage();
+            this.lblCount = new System.Windows.Forms.Label();
             this.lblNext = new System.Windows.Forms.Label();
             this.lblPrevious = new System.Windows.Forms.Label();
             this.lblIndex = new System.Windows.Forms.Label();
@@ -58,7 +59,7 @@
             this.tabBooks = new System.Windows.Forms.TabPage();
             this.lblCurrentBook = new System.Windows.Forms.Label();
             this.treeBooks = new System.Windows.Forms.TreeView();
-            this.lblCount = new System.Windows.Forms.Label();
+            this.btnTest = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabCard.SuspendLayout();
             this.tabAdd.SuspendLayout();
@@ -74,14 +75,14 @@
             this.tabControl1.Controls.Add(this.tabArrange);
             this.tabControl1.Controls.Add(this.tabBooks);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(349, 266);
+            this.tabControl1.Size = new System.Drawing.Size(262, 216);
             this.tabControl1.TabIndex = 0;
             // 
             // tabCard
             // 
+            this.tabCard.Controls.Add(this.btnTest);
             this.tabCard.Controls.Add(this.lblCount);
             this.tabCard.Controls.Add(this.lblNext);
             this.tabCard.Controls.Add(this.lblPrevious);
@@ -93,23 +94,31 @@
             this.tabCard.Controls.Add(this.btnYes);
             this.tabCard.Controls.Add(this.btnNo);
             this.tabCard.Controls.Add(this.txtWord);
-            this.tabCard.Location = new System.Drawing.Point(4, 25);
-            this.tabCard.Margin = new System.Windows.Forms.Padding(4);
+            this.tabCard.Location = new System.Drawing.Point(4, 22);
             this.tabCard.Name = "tabCard";
-            this.tabCard.Padding = new System.Windows.Forms.Padding(4);
-            this.tabCard.Size = new System.Drawing.Size(341, 237);
+            this.tabCard.Padding = new System.Windows.Forms.Padding(3);
+            this.tabCard.Size = new System.Drawing.Size(254, 190);
             this.tabCard.TabIndex = 0;
             this.tabCard.Text = "Card";
             this.tabCard.UseVisualStyleBackColor = true;
+            // 
+            // lblCount
+            // 
+            this.lblCount.AutoSize = true;
+            this.lblCount.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.lblCount.Location = new System.Drawing.Point(214, 16);
+            this.lblCount.Name = "lblCount";
+            this.lblCount.Size = new System.Drawing.Size(24, 13);
+            this.lblCount.TabIndex = 16;
+            this.lblCount.Text = "n/a";
             // 
             // lblNext
             // 
             this.lblNext.AutoSize = true;
             this.lblNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNext.Location = new System.Drawing.Point(303, 49);
-            this.lblNext.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblNext.Location = new System.Drawing.Point(227, 40);
             this.lblNext.Name = "lblNext";
-            this.lblNext.Size = new System.Drawing.Size(20, 20);
+            this.lblNext.Size = new System.Drawing.Size(16, 16);
             this.lblNext.TabIndex = 15;
             this.lblNext.Text = ">";
             this.lblNext.Click += new System.EventHandler(this.LblNext_Click);
@@ -120,10 +129,9 @@
             // 
             this.lblPrevious.AutoSize = true;
             this.lblPrevious.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPrevious.Location = new System.Drawing.Point(8, 49);
-            this.lblPrevious.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPrevious.Location = new System.Drawing.Point(6, 40);
             this.lblPrevious.Name = "lblPrevious";
-            this.lblPrevious.Size = new System.Drawing.Size(20, 20);
+            this.lblPrevious.Size = new System.Drawing.Size(16, 16);
             this.lblPrevious.TabIndex = 14;
             this.lblPrevious.Text = "<";
             this.lblPrevious.Click += new System.EventHandler(this.LblPrevious_Click);
@@ -134,31 +142,29 @@
             // 
             this.lblIndex.AutoSize = true;
             this.lblIndex.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.lblIndex.Location = new System.Drawing.Point(27, 196);
-            this.lblIndex.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblIndex.Location = new System.Drawing.Point(20, 159);
             this.lblIndex.Name = "lblIndex";
-            this.lblIndex.Size = new System.Drawing.Size(35, 21);
+            this.lblIndex.Size = new System.Drawing.Size(24, 13);
             this.lblIndex.TabIndex = 13;
             this.lblIndex.Text = "n/a";
             // 
             // lblBookName
             // 
             this.lblBookName.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.lblBookName.Location = new System.Drawing.Point(187, 196);
-            this.lblBookName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblBookName.Location = new System.Drawing.Point(140, 159);
             this.lblBookName.Name = "lblBookName";
-            this.lblBookName.Size = new System.Drawing.Size(116, 28);
+            this.lblBookName.Size = new System.Drawing.Size(87, 23);
             this.lblBookName.TabIndex = 12;
             this.lblBookName.Text = "n/a";
+            this.lblBookName.Click += new System.EventHandler(this.LblBookName_Click);
             // 
             // lblDifficulty
             // 
             this.lblDifficulty.AutoSize = true;
             this.lblDifficulty.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDifficulty.Location = new System.Drawing.Point(19, 10);
-            this.lblDifficulty.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDifficulty.Location = new System.Drawing.Point(14, 8);
             this.lblDifficulty.Name = "lblDifficulty";
-            this.lblDifficulty.Size = new System.Drawing.Size(112, 29);
+            this.lblDifficulty.Size = new System.Drawing.Size(87, 24);
             this.lblDifficulty.TabIndex = 11;
             this.lblDifficulty.Text = "Difficulty";
             // 
@@ -167,10 +173,9 @@
             this.btnAgain.BackColor = System.Drawing.Color.Orange;
             this.btnAgain.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAgain.ForeColor = System.Drawing.Color.White;
-            this.btnAgain.Location = new System.Drawing.Point(121, 129);
-            this.btnAgain.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAgain.Location = new System.Drawing.Point(27, 105);
             this.btnAgain.Name = "btnAgain";
-            this.btnAgain.Size = new System.Drawing.Size(100, 49);
+            this.btnAgain.Size = new System.Drawing.Size(75, 40);
             this.btnAgain.TabIndex = 10;
             this.btnAgain.Text = "Again";
             this.btnAgain.UseVisualStyleBackColor = false;
@@ -180,10 +185,9 @@
             // lblHidden
             // 
             this.lblHidden.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblHidden.Location = new System.Drawing.Point(31, 89);
-            this.lblHidden.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblHidden.Location = new System.Drawing.Point(23, 72);
             this.lblHidden.Name = "lblHidden";
-            this.lblHidden.Size = new System.Drawing.Size(267, 25);
+            this.lblHidden.Size = new System.Drawing.Size(200, 20);
             this.lblHidden.TabIndex = 9;
             this.lblHidden.Text = "Hidden";
             this.lblHidden.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -194,10 +198,9 @@
             this.btnYes.BackColor = System.Drawing.Color.SeaGreen;
             this.btnYes.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnYes.ForeColor = System.Drawing.Color.White;
-            this.btnYes.Location = new System.Drawing.Point(203, 129);
-            this.btnYes.Margin = new System.Windows.Forms.Padding(4);
+            this.btnYes.Location = new System.Drawing.Point(152, 105);
             this.btnYes.Name = "btnYes";
-            this.btnYes.Size = new System.Drawing.Size(100, 49);
+            this.btnYes.Size = new System.Drawing.Size(75, 40);
             this.btnYes.TabIndex = 8;
             this.btnYes.Text = "Yes";
             this.btnYes.UseVisualStyleBackColor = false;
@@ -209,10 +212,9 @@
             this.btnNo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNo.ForeColor = System.Drawing.Color.White;
-            this.btnNo.Location = new System.Drawing.Point(31, 129);
-            this.btnNo.Margin = new System.Windows.Forms.Padding(4);
+            this.btnNo.Location = new System.Drawing.Point(23, 105);
             this.btnNo.Name = "btnNo";
-            this.btnNo.Size = new System.Drawing.Size(100, 49);
+            this.btnNo.Size = new System.Drawing.Size(75, 40);
             this.btnNo.TabIndex = 7;
             this.btnNo.Text = "No";
             this.btnNo.UseVisualStyleBackColor = false;
@@ -224,10 +226,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtWord.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtWord.Location = new System.Drawing.Point(31, 39);
-            this.txtWord.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.txtWord.Location = new System.Drawing.Point(23, 32);
             this.txtWord.Name = "txtWord";
-            this.txtWord.Size = new System.Drawing.Size(272, 40);
+            this.txtWord.Size = new System.Drawing.Size(204, 32);
             this.txtWord.TabIndex = 6;
             this.txtWord.Text = "label1ghp";
             this.txtWord.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -242,13 +243,12 @@
             this.tabAdd.Controls.Add(this.lblMeaning);
             this.tabAdd.Controls.Add(this.lblNewWord);
             this.tabAdd.Controls.Add(this.txtNewWord);
-            this.tabAdd.Location = new System.Drawing.Point(4, 25);
-            this.tabAdd.Margin = new System.Windows.Forms.Padding(4);
+            this.tabAdd.Location = new System.Drawing.Point(4, 22);
             this.tabAdd.Name = "tabAdd";
-            this.tabAdd.Padding = new System.Windows.Forms.Padding(4);
-            this.tabAdd.Size = new System.Drawing.Size(341, 237);
+            this.tabAdd.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAdd.Size = new System.Drawing.Size(254, 190);
             this.tabAdd.TabIndex = 1;
-            this.tabAdd.Text = "Add";
+            this.tabAdd.Text = "New";
             this.tabAdd.UseVisualStyleBackColor = true;
             this.tabAdd.Click += new System.EventHandler(this.TabAdd_Click);
             this.tabAdd.Enter += new System.EventHandler(this.TabAdd_Click);
@@ -258,10 +258,9 @@
             this.btnUpdate.BackColor = System.Drawing.Color.MediumPurple;
             this.btnUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUpdate.ForeColor = System.Drawing.Color.White;
-            this.btnUpdate.Location = new System.Drawing.Point(200, 176);
-            this.btnUpdate.Margin = new System.Windows.Forms.Padding(4);
+            this.btnUpdate.Location = new System.Drawing.Point(150, 143);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(100, 39);
+            this.btnUpdate.Size = new System.Drawing.Size(75, 32);
             this.btnUpdate.TabIndex = 8;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = false;
@@ -271,15 +270,14 @@
             // numDifficulty
             // 
             this.numDifficulty.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numDifficulty.Location = new System.Drawing.Point(87, 119);
-            this.numDifficulty.Margin = new System.Windows.Forms.Padding(4);
+            this.numDifficulty.Location = new System.Drawing.Point(65, 97);
             this.numDifficulty.Maximum = new decimal(new int[] {
             5,
             0,
             0,
             0});
             this.numDifficulty.Name = "numDifficulty";
-            this.numDifficulty.Size = new System.Drawing.Size(213, 23);
+            this.numDifficulty.Size = new System.Drawing.Size(160, 20);
             this.numDifficulty.TabIndex = 7;
             this.numDifficulty.Value = new decimal(new int[] {
             4,
@@ -291,49 +289,44 @@
             // lblRate
             // 
             this.lblRate.AutoSize = true;
-            this.lblRate.Location = new System.Drawing.Point(11, 128);
-            this.lblRate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblRate.Location = new System.Drawing.Point(8, 104);
             this.lblRate.Name = "lblRate";
-            this.lblRate.Size = new System.Drawing.Size(61, 17);
+            this.lblRate.Size = new System.Drawing.Size(47, 13);
             this.lblRate.TabIndex = 4;
             this.lblRate.Text = "Difficulty";
             // 
             // txtMeaning
             // 
             this.txtMeaning.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMeaning.Location = new System.Drawing.Point(87, 74);
-            this.txtMeaning.Margin = new System.Windows.Forms.Padding(4);
+            this.txtMeaning.Location = new System.Drawing.Point(65, 60);
             this.txtMeaning.Name = "txtMeaning";
-            this.txtMeaning.Size = new System.Drawing.Size(212, 23);
+            this.txtMeaning.Size = new System.Drawing.Size(160, 20);
             this.txtMeaning.TabIndex = 3;
             // 
             // lblMeaning
             // 
             this.lblMeaning.AutoSize = true;
-            this.lblMeaning.Location = new System.Drawing.Point(11, 78);
-            this.lblMeaning.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblMeaning.Location = new System.Drawing.Point(8, 63);
             this.lblMeaning.Name = "lblMeaning";
-            this.lblMeaning.Size = new System.Drawing.Size(62, 17);
+            this.lblMeaning.Size = new System.Drawing.Size(48, 13);
             this.lblMeaning.TabIndex = 2;
             this.lblMeaning.Text = "Meaning";
             // 
             // lblNewWord
             // 
             this.lblNewWord.AutoSize = true;
-            this.lblNewWord.Location = new System.Drawing.Point(11, 30);
-            this.lblNewWord.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblNewWord.Location = new System.Drawing.Point(8, 24);
             this.lblNewWord.Name = "lblNewWord";
-            this.lblNewWord.Size = new System.Drawing.Size(42, 17);
+            this.lblNewWord.Size = new System.Drawing.Size(33, 13);
             this.lblNewWord.TabIndex = 1;
             this.lblNewWord.Text = "Word";
             // 
             // txtNewWord
             // 
             this.txtNewWord.Font = new System.Drawing.Font("Microsoft New Tai Lue", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNewWord.Location = new System.Drawing.Point(87, 21);
-            this.txtNewWord.Margin = new System.Windows.Forms.Padding(4);
+            this.txtNewWord.Location = new System.Drawing.Point(65, 17);
             this.txtNewWord.Name = "txtNewWord";
-            this.txtNewWord.Size = new System.Drawing.Size(212, 34);
+            this.txtNewWord.Size = new System.Drawing.Size(160, 28);
             this.txtNewWord.TabIndex = 0;
             // 
             // tabArrange
@@ -344,22 +337,20 @@
             this.tabArrange.Controls.Add(this.btnSplitWords);
             this.tabArrange.Controls.Add(this.lblArrange1);
             this.tabArrange.Controls.Add(this.btnArrange1);
-            this.tabArrange.Location = new System.Drawing.Point(4, 25);
-            this.tabArrange.Margin = new System.Windows.Forms.Padding(4);
+            this.tabArrange.Location = new System.Drawing.Point(4, 22);
             this.tabArrange.Name = "tabArrange";
-            this.tabArrange.Padding = new System.Windows.Forms.Padding(4);
-            this.tabArrange.Size = new System.Drawing.Size(341, 237);
+            this.tabArrange.Padding = new System.Windows.Forms.Padding(3);
+            this.tabArrange.Size = new System.Drawing.Size(254, 190);
             this.tabArrange.TabIndex = 2;
-            this.tabArrange.Text = "Arrange";
+            this.tabArrange.Text = "Manager";
             this.tabArrange.UseVisualStyleBackColor = true;
             // 
             // lblSplityByDifficulty
             // 
             this.lblSplityByDifficulty.AutoSize = true;
-            this.lblSplityByDifficulty.Location = new System.Drawing.Point(49, 211);
-            this.lblSplityByDifficulty.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSplityByDifficulty.Location = new System.Drawing.Point(37, 171);
             this.lblSplityByDifficulty.Name = "lblSplityByDifficulty";
-            this.lblSplityByDifficulty.Size = new System.Drawing.Size(45, 17);
+            this.lblSplityByDifficulty.Size = new System.Drawing.Size(36, 13);
             this.lblSplityByDifficulty.TabIndex = 18;
             this.lblSplityByDifficulty.Text = "Done!";
             this.lblSplityByDifficulty.Visible = false;
@@ -370,10 +361,9 @@
             this.btnSplitByDifficulty.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnSplitByDifficulty.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSplitByDifficulty.ForeColor = System.Drawing.Color.White;
-            this.btnSplitByDifficulty.Location = new System.Drawing.Point(41, 156);
-            this.btnSplitByDifficulty.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSplitByDifficulty.Location = new System.Drawing.Point(31, 127);
             this.btnSplitByDifficulty.Name = "btnSplitByDifficulty";
-            this.btnSplitByDifficulty.Size = new System.Drawing.Size(257, 52);
+            this.btnSplitByDifficulty.Size = new System.Drawing.Size(193, 42);
             this.btnSplitByDifficulty.TabIndex = 17;
             this.btnSplitByDifficulty.Text = "Split words by difficulty";
             this.btnSplitByDifficulty.UseVisualStyleBackColor = false;
@@ -382,10 +372,9 @@
             // lblSplit
             // 
             this.lblSplit.AutoSize = true;
-            this.lblSplit.Location = new System.Drawing.Point(49, 135);
-            this.lblSplit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSplit.Location = new System.Drawing.Point(37, 110);
             this.lblSplit.Name = "lblSplit";
-            this.lblSplit.Size = new System.Drawing.Size(45, 17);
+            this.lblSplit.Size = new System.Drawing.Size(36, 13);
             this.lblSplit.TabIndex = 16;
             this.lblSplit.Text = "Done!";
             this.lblSplit.Visible = false;
@@ -396,10 +385,9 @@
             this.btnSplitWords.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnSplitWords.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSplitWords.ForeColor = System.Drawing.Color.White;
-            this.btnSplitWords.Location = new System.Drawing.Point(41, 80);
-            this.btnSplitWords.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSplitWords.Location = new System.Drawing.Point(31, 65);
             this.btnSplitWords.Name = "btnSplitWords";
-            this.btnSplitWords.Size = new System.Drawing.Size(257, 52);
+            this.btnSplitWords.Size = new System.Drawing.Size(193, 42);
             this.btnSplitWords.TabIndex = 15;
             this.btnSplitWords.Text = "Split words by read count";
             this.btnSplitWords.UseVisualStyleBackColor = false;
@@ -408,10 +396,9 @@
             // lblArrange1
             // 
             this.lblArrange1.AutoSize = true;
-            this.lblArrange1.Location = new System.Drawing.Point(49, 60);
-            this.lblArrange1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblArrange1.Location = new System.Drawing.Point(37, 49);
             this.lblArrange1.Name = "lblArrange1";
-            this.lblArrange1.Size = new System.Drawing.Size(45, 17);
+            this.lblArrange1.Size = new System.Drawing.Size(36, 13);
             this.lblArrange1.TabIndex = 14;
             this.lblArrange1.Text = "Done!";
             this.lblArrange1.Visible = false;
@@ -422,10 +409,9 @@
             this.btnArrange1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnArrange1.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnArrange1.ForeColor = System.Drawing.Color.White;
-            this.btnArrange1.Location = new System.Drawing.Point(41, 7);
-            this.btnArrange1.Margin = new System.Windows.Forms.Padding(4);
+            this.btnArrange1.Location = new System.Drawing.Point(31, 6);
             this.btnArrange1.Name = "btnArrange1";
-            this.btnArrange1.Size = new System.Drawing.Size(257, 49);
+            this.btnArrange1.Size = new System.Drawing.Size(193, 40);
             this.btnArrange1.TabIndex = 13;
             this.btnArrange1.Text = "Remove Remembered Word";
             this.btnArrange1.UseVisualStyleBackColor = false;
@@ -435,11 +421,10 @@
             // 
             this.tabBooks.Controls.Add(this.lblCurrentBook);
             this.tabBooks.Controls.Add(this.treeBooks);
-            this.tabBooks.Location = new System.Drawing.Point(4, 25);
-            this.tabBooks.Margin = new System.Windows.Forms.Padding(4);
+            this.tabBooks.Location = new System.Drawing.Point(4, 22);
             this.tabBooks.Name = "tabBooks";
-            this.tabBooks.Padding = new System.Windows.Forms.Padding(4);
-            this.tabBooks.Size = new System.Drawing.Size(341, 237);
+            this.tabBooks.Padding = new System.Windows.Forms.Padding(3);
+            this.tabBooks.Size = new System.Drawing.Size(254, 190);
             this.tabBooks.TabIndex = 3;
             this.tabBooks.Text = "Book";
             this.tabBooks.UseVisualStyleBackColor = true;
@@ -449,40 +434,40 @@
             // 
             this.lblCurrentBook.AutoSize = true;
             this.lblCurrentBook.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblCurrentBook.Location = new System.Drawing.Point(187, 210);
-            this.lblCurrentBook.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCurrentBook.Location = new System.Drawing.Point(140, 171);
             this.lblCurrentBook.Name = "lblCurrentBook";
-            this.lblCurrentBook.Size = new System.Drawing.Size(46, 17);
+            this.lblCurrentBook.Size = new System.Drawing.Size(35, 13);
             this.lblCurrentBook.TabIndex = 2;
             this.lblCurrentBook.Text = "label1";
             // 
             // treeBooks
             // 
-            this.treeBooks.Location = new System.Drawing.Point(19, 7);
-            this.treeBooks.Margin = new System.Windows.Forms.Padding(4);
+            this.treeBooks.Location = new System.Drawing.Point(14, 6);
             this.treeBooks.Name = "treeBooks";
-            this.treeBooks.Size = new System.Drawing.Size(275, 198);
+            this.treeBooks.Size = new System.Drawing.Size(207, 162);
             this.treeBooks.TabIndex = 1;
             this.treeBooks.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Book_Select);
             // 
-            // lblCount
+            // btnTest
             // 
-            this.lblCount.AutoSize = true;
-            this.lblCount.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.lblCount.Location = new System.Drawing.Point(286, 20);
-            this.lblCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCount.Name = "lblCount";
-            this.lblCount.Size = new System.Drawing.Size(28, 17);
-            this.lblCount.TabIndex = 16;
-            this.lblCount.Text = "n/a";
+            this.btnTest.BackColor = System.Drawing.Color.DarkOrchid;
+            this.btnTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTest.ForeColor = System.Drawing.Color.White;
+            this.btnTest.Location = new System.Drawing.Point(138, 105);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(75, 40);
+            this.btnTest.TabIndex = 17;
+            this.btnTest.Text = "Test";
+            this.btnTest.UseVisualStyleBackColor = false;
+            this.btnTest.Visible = false;
+            this.btnTest.Click += new System.EventHandler(this.BtnTest_Click);
             // 
             // CombinedWordCard
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(348, 262);
+            this.ClientSize = new System.Drawing.Size(261, 213);
             this.Controls.Add(this.tabControl1);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "CombinedWordCard";
             this.Text = "NewWord";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Card_Closing);
@@ -534,5 +519,6 @@
         private System.Windows.Forms.Label lblSplityByDifficulty;
         private System.Windows.Forms.Button btnSplitByDifficulty;
         private System.Windows.Forms.Label lblCount;
+        private System.Windows.Forms.Button btnTest;
     }
 }

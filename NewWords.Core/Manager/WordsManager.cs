@@ -26,15 +26,52 @@ namespace NewWords.Core.Manager
                 {
                     if (i == j - 1 && m != 0)
                     {
-                        result.Add(wordList.GetRange(i * 10, m).ToJsonString());
+                        result.Add(wordList.GetRange(i * Constants.Book.WordCount, m).ToJsonString());
                     }
                     else
                     {
-                        result.Add(wordList.GetRange(i * 10, Constants.Book.WordCount).ToJsonString());
+                        result.Add(wordList.GetRange(i * Constants.Book.WordCount, Constants.Book.WordCount).ToJsonString());
                     }
                 }
             }
 
+            return result;
+        }
+
+        public List<WordBook> SplitWordToBooks(List<WordCard> wordList, string bookOrgName)
+        {
+            var result = new List<WordBook>();
+            if (wordList.Count == 0) return result;
+            if (wordList.Count <= Constants.Book.WordCount)
+            {
+                result.Add( new WordBook(bookOrgName,null)
+                {
+                    WordCardList = wordList,
+                });
+            }
+            else
+            {
+                var n = wordList.Count / Constants.Book.WordCount;
+                var m = wordList.Count % Constants.Book.WordCount;
+                var j = m == 0 ? n : n + 1;
+                for (int i = 0; i < j; i++)
+                {
+                    if (i == j - 1 && m != 0)
+                    {
+                        result.Add(new WordBook(bookOrgName, i)
+                        {
+                            WordCardList = wordList.GetRange(i * Constants.Book.WordCount, m),
+                        });
+                    }
+                    else
+                    {
+                        result.Add(new WordBook(bookOrgName, i)
+                        {
+                            WordCardList = wordList.GetRange(i * Constants.Book.WordCount, Constants.Book.WordCount)
+                        });
+                    }
+                }
+            }
             return result;
         }
     }

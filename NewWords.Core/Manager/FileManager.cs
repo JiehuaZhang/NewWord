@@ -52,7 +52,15 @@ namespace NewWords.Core.Manager
         {
             for (int i = 0; i < bookStringList.Count; i++)
             {
-                SaveJsonToFile(bookPath + "-" + i + ".txt", bookStringList[i]);
+                SaveJsonToFile(bookPath +"("+bookStringList.Count+")" + "-" + i + ".txt", bookStringList[i]);
+            }
+        }
+
+        public void SaveBook(List<WordBook> books)
+        {
+            foreach (var book in books)
+            {
+                SaveJsonToFile(book.BookPath, book.WordCardJsonString);
             }
         }
 

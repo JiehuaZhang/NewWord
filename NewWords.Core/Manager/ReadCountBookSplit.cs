@@ -24,28 +24,26 @@ namespace NewWords.Core.Manager
         public void SplitWordToBooks()
         {
             var allWords = _fileManager.GetWordList(Constants.Book.AllWordFilePath);
-            var word10 = allWords.Where(x => x.Count <= 10 && x.Difficulty <5).Select(x => x).ToList();
-            var word20 = allWords.Where(x => x.Count <= 20 && x.Count > 10 && x.Difficulty < 5).Select(x => x).ToList();
-            var word30 = allWords.Where(x => x.Count <= 30 && x.Count > 20 && x.Difficulty < 5).Select(x => x).ToList();
-            var word40 = allWords.Where(x => x.Count <= 40 && x.Count > 30 && x.Difficulty < 5).Select(x => x).ToList();
-            var word50 = allWords.Where(x => (x.Count <= 50 && x.Count > 40 && x.Difficulty < 5) || (x.Count > 50 && x.Difficulty < 5)).Select(x => x).ToList();
-            var hardWord = allWords.Where(x => x.Difficulty == 5).Select(x => x).ToList();
+            var word10 = allWords.Where(x => x.Count <= 10).Select(x => x).ToList();
+            var word20 = allWords.Where(x => x.Count <= 20 && x.Count > 10 ).Select(x => x).ToList();
+            var word30 = allWords.Where(x => x.Count <= 30 && x.Count > 20).ToList();
+            var word40 = allWords.Where(x => x.Count <= 40 && x.Count > 30 ).Select(x => x).ToList();
+            var word50 = allWords.Where(x => x.Count > 40).Select(x => x).ToList();
 
             _fileManager.DeleteAllFilesInFolder(new DirectoryInfo(Constants.Book.BookPath));
 
-            var word10StringList = _wordsManager.SplitWordList(word10);
-            var word20StringList = _wordsManager.SplitWordList(word20);
-            var word30StringList = _wordsManager.SplitWordList(word30);
-            var word40StringList = _wordsManager.SplitWordList(word40);
-            var word50StringList = _wordsManager.SplitWordList(word50);
-            var hardWordStringList = _wordsManager.SplitWordList(hardWord);
+            var word10Books = _wordsManager.SplitWordToBooks(word10, "Word_10");
+            var word20Books = _wordsManager.SplitWordToBooks(word20, "Word_20");
+            var word30Books = _wordsManager.SplitWordToBooks(word30, "Word_30");
+            var word40Books = _wordsManager.SplitWordToBooks(word40, "Word_40");
+            var word50Books = _wordsManager.SplitWordToBooks(word50, "Word_50");
 
-            _fileManager.SaveBooks(word10StringList,Constants.Book.BookPath + "Word_10");
-            _fileManager.SaveBooks(word20StringList, Constants.Book.BookPath + "Word_20");
-            _fileManager.SaveBooks(word30StringList, Constants.Book.BookPath + "Word_30");
-            _fileManager.SaveBooks(word40StringList, Constants.Book.BookPath + "Word_40");
-            _fileManager.SaveBooks(word50StringList, Constants.Book.BookPath + "Word_50");
-            _fileManager.SaveBooks(hardWordStringList, Constants.Book.BookPath + "HardWord");
+            _fileManager.SaveBook(word10Books);
+            _fileManager.SaveBook(word20Books);
+            _fileManager.SaveBook(word30Books);
+            _fileManager.SaveBook(word40Books);
+            _fileManager.SaveBook(word50Books);
+
         }
     }
 }
