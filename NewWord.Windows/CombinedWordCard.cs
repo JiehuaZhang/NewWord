@@ -201,6 +201,7 @@ namespace NewWord.Windows
         private void TabAdd_Click(object sender, EventArgs e)
         {
             txtNewWord.Focus();
+            EmptyTheForm();
         }
         private void SaveWordCard()
         {
@@ -220,9 +221,7 @@ namespace NewWord.Windows
             if (e.KeyChar == 13 && btnUpdate.Visible == false)
             {
                 SaveWordCard();
-                txtNewWord.Text = string.Empty;
-                txtMeaning.Text = string.Empty;
-                numDifficulty.Value = 4;
+                EmptyTheForm();
                 txtNewWord.Focus();
             }
         }
@@ -232,21 +231,29 @@ namespace NewWord.Windows
             _words[_count].Word = txtNewWord.Text;
             _words[_count].Meaning = txtMeaning.Text;
             _words[_count].Difficulty = (int) numDifficulty.Value;
-            txtNewWord.Text = string.Empty;
-            txtMeaning.Text = string.Empty;
-            numDifficulty.Value = 4;
-            btnUpdate.Visible = false;
+            EmptyTheForm();
             tabControl1.SelectedTab = tabCard;
             _fileManager.SaveJsonToFile(Constants.Book.BookPath + _currentBook, _words.ToJsonString());
             ShowWordCard();
         }
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            EmptyTheForm();
+            tabControl1.SelectedTab = tabCard;
+        }
 
         #endregion
-       
+
 
         #region Functions
 
-        
+        private void EmptyTheForm()
+        {
+            txtNewWord.Text = string.Empty;
+            txtMeaning.Text = string.Empty;
+            numDifficulty.Value = 4;
+            btnUpdate.Visible = false;
+        }
 
         #endregion
 

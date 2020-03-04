@@ -9,17 +9,31 @@ namespace NewWords.Core.Model
 {
     public class WordBook
     {
-        private readonly string _originBookName;
+        private readonly string _bookType;
         private readonly string _index;
+        private readonly string _currentBookName;
 
-        public WordBook(string originBookName, int? index)
+        public WordBook(string bookType, int? index, string currentBookName)
         {
-            _originBookName = originBookName;
+            _bookType = bookType;
             _index = index==null? string.Empty: "-"+index;
+            _currentBookName = currentBookName;
         }
 
-        public List<WordCard> WordCardList { get; set; }
-        public string BookName => _originBookName+ _index + "_(" + WordCardList.Count + ")";
+        public List<WordCard> WordCardList { get; set; } = new List<WordCard>();
+
+        public string BookName
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_bookType))
+                {
+                    return "Word_"+_bookType +"-"+ _index + "_(" + WordCardList.Count + ")";
+                }
+
+                return _currentBookName;
+            }
+        }
         public string WordCardJsonString => WordCardList.ToJsonString();
         public string BookPath => Constants.Book.BookPath + BookName;
     }

@@ -30,12 +30,12 @@ namespace NewWords.Core.Manager
 
             _fileManager.DeleteAllFilesInFolder(new DirectoryInfo(Constants.Book.BookPath));
 
-            var word0Books = _wordsManager.SplitWordToBooks(word0, "Word_0");
-            var word1Books = _wordsManager.SplitWordToBooks(word1, "Word_1");
-            var word2Books = _wordsManager.SplitWordToBooks(word2, "Word_2");
-            var word3Books = _wordsManager.SplitWordToBooks(word3, "Word_3");
-            var word4Books = _wordsManager.SplitWordToBooks(word4, "Word_4");
-            var word5Books = _wordsManager.SplitWordToBooks(word5, "Word_5");
+            var word0Books = _wordsManager.SplitWordToBooks(word0, "0");
+            var word1Books = _wordsManager.SplitWordToBooks(word1, "1");
+            var word2Books = _wordsManager.SplitWordToBooks(word2, "2");
+            var word3Books = _wordsManager.SplitWordToBooks(word3, "3");
+            var word4Books = _wordsManager.SplitWordToBooks(word4, "4");
+            var word5Books = _wordsManager.SplitWordToBooks(word5, "5");
 
             _fileManager.SaveBook(word0Books);
             _fileManager.SaveBook(word1Books);

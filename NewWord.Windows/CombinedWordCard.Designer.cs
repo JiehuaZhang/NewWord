@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCard = new System.Windows.Forms.TabPage();
+            this.btnTest = new System.Windows.Forms.Button();
             this.lblCount = new System.Windows.Forms.Label();
             this.lblNext = new System.Windows.Forms.Label();
             this.lblPrevious = new System.Windows.Forms.Label();
@@ -59,7 +60,6 @@
             this.tabBooks = new System.Windows.Forms.TabPage();
             this.lblCurrentBook = new System.Windows.Forms.Label();
             this.treeBooks = new System.Windows.Forms.TreeView();
-            this.btnTest = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabCard.SuspendLayout();
             this.tabAdd.SuspendLayout();
@@ -77,7 +77,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(262, 216);
+            this.tabControl1.Size = new System.Drawing.Size(273, 227);
             this.tabControl1.TabIndex = 0;
             // 
             // tabCard
@@ -97,10 +97,24 @@
             this.tabCard.Location = new System.Drawing.Point(4, 22);
             this.tabCard.Name = "tabCard";
             this.tabCard.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCard.Size = new System.Drawing.Size(254, 190);
+            this.tabCard.Size = new System.Drawing.Size(265, 201);
             this.tabCard.TabIndex = 0;
             this.tabCard.Text = "Card";
             this.tabCard.UseVisualStyleBackColor = true;
+            // 
+            // btnTest
+            // 
+            this.btnTest.BackColor = System.Drawing.Color.DarkOrchid;
+            this.btnTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTest.ForeColor = System.Drawing.Color.White;
+            this.btnTest.Location = new System.Drawing.Point(138, 105);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(75, 40);
+            this.btnTest.TabIndex = 17;
+            this.btnTest.Text = "Test";
+            this.btnTest.UseVisualStyleBackColor = false;
+            this.btnTest.Visible = false;
+            this.btnTest.Click += new System.EventHandler(this.BtnTest_Click);
             // 
             // lblCount
             // 
@@ -246,7 +260,7 @@
             this.tabAdd.Location = new System.Drawing.Point(4, 22);
             this.tabAdd.Name = "tabAdd";
             this.tabAdd.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAdd.Size = new System.Drawing.Size(254, 190);
+            this.tabAdd.Size = new System.Drawing.Size(265, 201);
             this.tabAdd.TabIndex = 1;
             this.tabAdd.Text = "New";
             this.tabAdd.UseVisualStyleBackColor = true;
@@ -340,7 +354,7 @@
             this.tabArrange.Location = new System.Drawing.Point(4, 22);
             this.tabArrange.Name = "tabArrange";
             this.tabArrange.Padding = new System.Windows.Forms.Padding(3);
-            this.tabArrange.Size = new System.Drawing.Size(254, 190);
+            this.tabArrange.Size = new System.Drawing.Size(265, 201);
             this.tabArrange.TabIndex = 2;
             this.tabArrange.Text = "Manager";
             this.tabArrange.UseVisualStyleBackColor = true;
@@ -424,7 +438,7 @@
             this.tabBooks.Location = new System.Drawing.Point(4, 22);
             this.tabBooks.Name = "tabBooks";
             this.tabBooks.Padding = new System.Windows.Forms.Padding(3);
-            this.tabBooks.Size = new System.Drawing.Size(254, 190);
+            this.tabBooks.Size = new System.Drawing.Size(265, 201);
             this.tabBooks.TabIndex = 3;
             this.tabBooks.Text = "Book";
             this.tabBooks.UseVisualStyleBackColor = true;
@@ -448,25 +462,11 @@
             this.treeBooks.TabIndex = 1;
             this.treeBooks.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Book_Select);
             // 
-            // btnTest
-            // 
-            this.btnTest.BackColor = System.Drawing.Color.DarkOrchid;
-            this.btnTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTest.ForeColor = System.Drawing.Color.White;
-            this.btnTest.Location = new System.Drawing.Point(138, 105);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(75, 40);
-            this.btnTest.TabIndex = 17;
-            this.btnTest.Text = "Test";
-            this.btnTest.UseVisualStyleBackColor = false;
-            this.btnTest.Visible = false;
-            this.btnTest.Click += new System.EventHandler(this.BtnTest_Click);
-            // 
             // CombinedWordCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(261, 213);
+            this.ClientSize = new System.Drawing.Size(272, 223);
             this.Controls.Add(this.tabControl1);
             this.Name = "CombinedWordCard";
             this.Text = "NewWord";

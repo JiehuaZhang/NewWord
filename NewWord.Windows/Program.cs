@@ -16,7 +16,7 @@ namespace NewWord.Windows
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new CombinedWordCard());
+            Application.Run(new MainWindow());
         }
     }
 }

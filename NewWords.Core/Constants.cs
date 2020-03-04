@@ -17,7 +17,7 @@ namespace NewWords.Core
         }
         public struct BookName
         {
-            public const string NewWordBook = "NewWords.txt";
+            public const string NewWordBook = "NewWords";
             public const string AllWordsBook = "AllWords.txt";
         }
 
@@ -31,11 +31,8 @@ namespace NewWords.Core
             public const string Previous = "Previous";
             public const string Yes = "Yes";
             public const string No = "No";
-        }
-
-        public static string BuildWordBookName(int count, int index)
-        {
-            return "Word_" + count + "-" + index + ".txt";
+            public const string Cancel = "Cancel";
+            public const string TestMode = "Test";
         }
 
         public static string BuildOkWordBookFilePath()
