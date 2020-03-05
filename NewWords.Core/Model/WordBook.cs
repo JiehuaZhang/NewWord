@@ -11,7 +11,7 @@ namespace NewWords.Core.Model
     {
         private readonly string _bookType;
         private readonly string _index;
-        private readonly string _currentBookName;
+        private string _currentBookName;
 
         public WordBook(string bookType, int? index, string currentBookName)
         {
@@ -24,11 +24,12 @@ namespace NewWords.Core.Model
 
         public string BookName
         {
+            set=> _currentBookName = value;
             get
             {
                 if (!string.IsNullOrEmpty(_bookType))
                 {
-                    return "Word_"+_bookType +"-"+ _index + "_(" + WordCardList.Count + ")";
+                    return "Word_" + _bookType + "-" + _index + "_(" + WordCardList.Count + ")";
                 }
 
                 return _currentBookName;

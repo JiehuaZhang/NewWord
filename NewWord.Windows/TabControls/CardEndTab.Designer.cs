@@ -30,7 +30,8 @@
         {
             this.btnTest = new System.Windows.Forms.Button();
             this.btnAgain = new System.Windows.Forms.Button();
-            this.txtWord = new System.Windows.Forms.Label();
+            this.lblEnd = new System.Windows.Forms.Label();
+            this.lblBookName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnTest
@@ -44,7 +45,7 @@
             this.btnTest.TabIndex = 27;
             this.btnTest.Text = "Test";
             this.btnTest.UseVisualStyleBackColor = false;
-            this.btnTest.Visible = false;
+            this.btnTest.Click += new System.EventHandler(this.BtnTest_Click);
             // 
             // btnAgain
             // 
@@ -57,30 +58,42 @@
             this.btnAgain.TabIndex = 22;
             this.btnAgain.Text = "Again";
             this.btnAgain.UseVisualStyleBackColor = false;
-            this.btnAgain.Visible = false;
+            this.btnAgain.Click += new System.EventHandler(this.BtnAgain_Click);
             // 
-            // txtWord
+            // lblEnd
             // 
-            this.txtWord.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lblEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtWord.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtWord.Location = new System.Drawing.Point(26, 17);
-            this.txtWord.Name = "txtWord";
-            this.txtWord.Size = new System.Drawing.Size(204, 32);
-            this.txtWord.TabIndex = 18;
-            this.txtWord.Text = "label1ghp";
-            this.txtWord.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblEnd.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEnd.Location = new System.Drawing.Point(26, 17);
+            this.lblEnd.Name = "lblEnd";
+            this.lblEnd.Size = new System.Drawing.Size(204, 32);
+            this.lblEnd.TabIndex = 18;
+            this.lblEnd.Text = "label1ghp";
+            this.lblEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblBookName
+            // 
+            this.lblBookName.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.lblBookName.Location = new System.Drawing.Point(85, 159);
+            this.lblBookName.Name = "lblBookName";
+            this.lblBookName.Size = new System.Drawing.Size(96, 25);
+            this.lblBookName.TabIndex = 28;
+            this.lblBookName.Text = "n/a";
+            this.lblBookName.Click += new System.EventHandler(this.CardEndTab_Load);
             // 
             // CardEndTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblBookName);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.btnAgain);
-            this.Controls.Add(this.txtWord);
+            this.Controls.Add(this.lblEnd);
             this.Name = "CardEndTab";
             this.Size = new System.Drawing.Size(255, 184);
+            this.Load += new System.EventHandler(this.CardEndTab_Load);
             this.ResumeLayout(false);
 
         }
@@ -89,6 +102,7 @@
 
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Button btnAgain;
-        private System.Windows.Forms.Label txtWord;
+        private System.Windows.Forms.Label lblEnd;
+        private System.Windows.Forms.Label lblBookName;
     }
 }

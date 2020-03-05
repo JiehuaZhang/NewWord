@@ -61,7 +61,7 @@
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\CardModel.cs" />
+    <Compile Include="Model\TabTransferDataModel.cs" />
     <Compile Include="New.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -58,6 +58,7 @@
             this.btnSplitByDifficulty.TabIndex = 23;
             this.btnSplitByDifficulty.Text = "Split words by difficulty";
             this.btnSplitByDifficulty.UseVisualStyleBackColor = false;
+            this.btnSplitByDifficulty.Click += new System.EventHandler(this.BtnSplitByDifficulty_Click);
             // 
             // lblSplit
             // 
@@ -81,6 +82,7 @@
             this.btnSplitWords.TabIndex = 21;
             this.btnSplitWords.Text = "Split words by read count";
             this.btnSplitWords.UseVisualStyleBackColor = false;
+            this.btnSplitWords.Click += new System.EventHandler(this.BtnSplitWords_Click);
             // 
             // lblArrange1
             // 
@@ -104,6 +106,7 @@
             this.btnArrange1.TabIndex = 19;
             this.btnArrange1.Text = "Remove Remembered Word";
             this.btnArrange1.UseVisualStyleBackColor = false;
+            this.btnArrange1.Click += new System.EventHandler(this.BtnArrange1_Click);
             // 
             // WordControlTab
             // 

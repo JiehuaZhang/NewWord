@@ -59,16 +59,18 @@
             this.lblNext.Size = new System.Drawing.Size(20, 20);
             this.lblNext.TabIndex = 27;
             this.lblNext.Text = ">";
+            this.lblNext.Click += new System.EventHandler(this.LblNext_Click);
             // 
             // lblPrevious
             // 
             this.lblPrevious.AutoSize = true;
             this.lblPrevious.Font = new System.Drawing.Font("NSimSun", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPrevious.Location = new System.Drawing.Point(3, 43);
+            this.lblPrevious.Location = new System.Drawing.Point(3, 44);
             this.lblPrevious.Name = "lblPrevious";
             this.lblPrevious.Size = new System.Drawing.Size(20, 20);
             this.lblPrevious.TabIndex = 26;
             this.lblPrevious.Text = "<";
+            this.lblPrevious.Click += new System.EventHandler(this.LblPrevious_Click);
             // 
             // lblIndex
             // 
@@ -121,6 +123,7 @@
             this.btnYes.TabIndex = 20;
             this.btnYes.Text = "Yes";
             this.btnYes.UseVisualStyleBackColor = false;
+            this.btnYes.Click += new System.EventHandler(this.BtnYes_Click);
             // 
             // btnNo
             // 
@@ -134,6 +137,7 @@
             this.btnNo.TabIndex = 19;
             this.btnNo.Text = "No";
             this.btnNo.UseVisualStyleBackColor = false;
+            this.btnNo.Click += new System.EventHandler(this.BtnNo_Click);
             // 
             // txtWord
             // 
@@ -147,6 +151,7 @@
             this.txtWord.TabIndex = 18;
             this.txtWord.Text = "label1ghp";
             this.txtWord.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtWord.Click += new System.EventHandler(this.TxtWord_Click);
             // 
             // CardTab
             // 
@@ -164,6 +169,8 @@
             this.Controls.Add(this.txtWord);
             this.Name = "CardTab";
             this.Size = new System.Drawing.Size(255, 184);
+            this.Load += new System.EventHandler(this.CardTab_Load);
+            this.Enter += new System.EventHandler(this.CardTab_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

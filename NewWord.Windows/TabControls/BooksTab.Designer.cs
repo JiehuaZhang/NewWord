@@ -48,6 +48,8 @@
             this.treeBooks.Name = "treeBooks";
             this.treeBooks.Size = new System.Drawing.Size(207, 162);
             this.treeBooks.TabIndex = 3;
+            this.treeBooks.Leave += new System.EventHandler(this.Book_Leave);
+            this.treeBooks.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Book_Select);
             // 
             // BooksTab
             // 
@@ -57,6 +59,7 @@
             this.Controls.Add(this.treeBooks);
             this.Name = "BooksTab";
             this.Size = new System.Drawing.Size(255, 184);
+            this.Load += new System.EventHandler(this.BooksTab_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

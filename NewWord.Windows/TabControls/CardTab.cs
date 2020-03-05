@@ -7,29 +7,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NewWord.Windows.Model;
 using NewWords.Core;
+using NewWords.Core.Manager;
 using NewWords.Core.Model;
 
 namespace NewWord.Windows.TabControls
 {
     public partial class CardTab : UserControl
     {
-        public WordBook CurrentBook { get; set; }
+        public event EventHandler EndCardEvent;
+        public event EventHandler EditWordEvent;
+
+        private readonly FileManager _fileManager;
+        public WordBook CurrentBook { get; set; } = new WordBook(null, null, null);
         public bool IsTest { get; set; }
-        private int _count;
+        public int WordIndex;
         private readonly Color _rememberColor = Color.CornflowerBlue;
         private readonly Color _forgotColor = Color.DarkViolet;
-        public CardTab()
+        public CardTab(FileManager fileManager)
         {
+            _fileManager = fileManager;
             InitializeComponent();
         }
 
-        #region Event
 
+        private void CardTab_Load(object sender, EventArgs e)
+        {
+            if (CurrentBook.WordCardList.Count == 0)
+                NoNewWord();
+            else
+                CardBeginning();
+        }
+
+        #region Event
         private void BtnNo_Click(object sender, EventArgs e)
         {
-            CurrentBook.WordCardList[_count].Remember = false;
-            CurrentBook.WordCardList[_count].Count++;
+            CurrentBook.WordCardList[WordIndex].Remember = false;
+            CurrentBook.WordCardList[WordIndex].Count++;
             if (IsTest)
                 txtWord.Visible = true;
             else
@@ -38,16 +53,6 @@ namespace NewWord.Windows.TabControls
             btnNo.Visible = false;
         }
 
-        private void BtnAgain_Click(object sender, EventArgs e)
-        {
-            IsTest = false;
-            CardBeginning();
-        }
-        private void BtnTest_Click(object sender, EventArgs e)
-        {
-            IsTest = true;
-            CardBeginning();
-        }
 
         private async void BtnYes_Click(object sender, EventArgs e)
         {
@@ -59,19 +64,20 @@ namespace NewWord.Windows.TabControls
             btnNo.Visible = false;
             lblNext.Visible = false;
             lblPrevious.Visible = false;
-            CurrentBook.WordCardList[_count].Remember = true;
+            CurrentBook.WordCardList[WordIndex].Remember = true;
             if (IsTest)
                 await Task.Delay(1000);
             else
                 await Task.Delay(500);
-            CurrentBook.WordCardList[_count].Count++;
-            if (_count == CurrentBook.WordCardList.Count - 1)
+            CurrentBook.WordCardList[WordIndex].Count++;
+            if (WordIndex == CurrentBook.WordCardList.Count - 1)
             {
-                TheEnd();
+                _fileManager.SaveJsonToFile(CurrentBook.BookPath, CurrentBook.WordCardJsonString);
+                EndCardEvent?.Invoke(new TabTransferDataModel(CurrentBook, "Card"), e);
             }
             else
             {
-                _count++;
+                WordIndex++;
                 ShowWordCard();
             }
 
@@ -79,21 +85,21 @@ namespace NewWord.Windows.TabControls
 
         private void TxtWord_Click(object sender, EventArgs e)
         {
-            
-
+            EditWordEvent?.Invoke(this, null);
         }
         private void LblPrevious_Click(object sender, EventArgs e)
         {
-            _count--;
+            WordIndex--;
             ShowWordCard();
         }
 
         private void LblNext_Click(object sender, EventArgs e)
         {
-            _count++;
-            if (_count == CurrentBook.WordCardList.Count)
+            WordIndex++;
+            if (WordIndex == CurrentBook.WordCardList.Count)
             {
-                TheEnd();
+                
+                EndCardEvent?.Invoke(new TabTransferDataModel(CurrentBook,"Card"), e);
             }
             else
             {
@@ -101,17 +107,31 @@ namespace NewWord.Windows.TabControls
             }
         }
 
+        private void LabelChangeColor_MouseHover(object sender, EventArgs e)
+        {
+            var label = (Label)sender;
+            label.BackColor = Color.DarkGoldenrod;
+            label.ForeColor = Color.White;
+        }
+
+        private void LabelChangeColor_MouseLeave(object sender, EventArgs e)
+        {
+            var label = (Label)sender;
+            label.BackColor = Color.White;
+            label.ForeColor = Color.Black;
+        }
+
         #endregion
 
         #region Function
         private void ShowWordCard()
         {
-            txtWord.Text = CurrentBook.WordCardList[_count].Word;
-            txtWord.ForeColor = CurrentBook.WordCardList[_count].Remember ? _rememberColor : _forgotColor;
-            lblDifficulty.Text = new string('*', CurrentBook.WordCardList[_count].Difficulty);
-            lblHidden.Text = CurrentBook.WordCardList[_count].Meaning;
+            txtWord.Text = CurrentBook.WordCardList[WordIndex].Word;
+            txtWord.ForeColor = CurrentBook.WordCardList[WordIndex].Remember ? _rememberColor : _forgotColor;
+            lblDifficulty.Text = new string('*', CurrentBook.WordCardList[WordIndex].Difficulty);
+            lblHidden.Text = CurrentBook.WordCardList[WordIndex].Meaning;
             lblBookName.Text = CurrentBook.BookName;
-            lblIndex.Text = (_count + 1) + "/" + CurrentBook.WordCardList.Count;
+            lblIndex.Text = (WordIndex + 1) + "/" + CurrentBook.WordCardList.Count;
             btnYes.Visible = true;
             btnYes.Text = Constants.FormText.Yes;
             btnNo.Text = Constants.FormText.No;
@@ -123,21 +143,12 @@ namespace NewWord.Windows.TabControls
             lblCount.Visible = true;
             btnNo.Enabled = true;
             lblNext.Visible = true;
-            lblPrevious.Visible = _count != 0;
-            lblCount.Text = CurrentBook.WordCardList[_count].Count.ToString();
+            lblPrevious.Visible = WordIndex != 0;
+            lblCount.Text = CurrentBook.WordCardList[WordIndex].Count.ToString();
         }
         private void TheEnd()
         {
-            btnNo.Visible = false;
-            btnYes.Visible = false;
-            lblHidden.Visible = false;
-            lblDifficulty.Visible = false;
-            lblIndex.Visible = false;
-            lblNext.Visible = false;
-            lblPrevious.Visible = false;
-            lblCount.Visible = false;
-            txtWord.ForeColor = Color.Black;
-            txtWord.Text = Constants.FormText.TheEnd;
+           
         }
         private void NoNewWord()
         {
@@ -149,10 +160,48 @@ namespace NewWord.Windows.TabControls
         }
         private void CardBeginning()
         {
-            _count = 0;
+            WordIndex = 0;
             ShowWordCard();
         }
 
+        public void CardInitialization(object sender, EventArgs e)
+        {
+            if (sender != null)
+            {
+                var currentBook = (WordBook) sender;
+                CurrentBook = currentBook;
+                WordIndex = 0;
+                ShowWordCard();
+            }
+           
+            
+        }
+
+        public void CardLoadAgain(object sender, EventArgs e)
+        {
+            if (sender != null)
+            {
+                var transferData = (TabTransferDataModel) sender;
+                IsTest = transferData.IsTestMode;
+                WordIndex = transferData.RunningIndex;
+                ShowWordCard();
+            }
+        }
+
+        public void UpdateOneWord(object sender, EventArgs e)
+        {
+            if (sender != null)
+            {
+                var senderData = (TabTransferDataModel)sender;
+                CurrentBook.WordCardList[WordIndex].Word = senderData.CurrentBook.WordCardList[senderData.RunningIndex].Word;
+                CurrentBook.WordCardList[WordIndex].Meaning = senderData.CurrentBook.WordCardList[senderData.RunningIndex].Meaning;
+                CurrentBook.WordCardList[WordIndex].Difficulty = senderData.CurrentBook.WordCardList[senderData.RunningIndex].Difficulty;
+                ShowWordCard();
+            }
+        }
+
         #endregion
+
+        
     }
 }
