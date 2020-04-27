@@ -22,7 +22,7 @@ namespace NewWord.Windows.TabControls
         private readonly FileManager _fileManager;
         public WordBook CurrentBook { get; set; } = new WordBook(null, null, null);
         public bool IsTest { get; set; }
-        public int WordIndex;
+        public int WordIndex =0;
         private readonly Color _rememberColor = Color.CornflowerBlue;
         private readonly Color _forgotColor = Color.DarkViolet;
         public CardTab(FileManager fileManager)
@@ -37,7 +37,7 @@ namespace NewWord.Windows.TabControls
             if (CurrentBook.WordCardList.Count == 0)
                 NoNewWord();
             else
-                CardBeginning();
+                ShowWordCard();
         }
 
         #region Event
@@ -45,6 +45,7 @@ namespace NewWord.Windows.TabControls
         {
             CurrentBook.WordCardList[WordIndex].Remember = false;
             CurrentBook.WordCardList[WordIndex].Count++;
+            CurrentBook.WordCardList[WordIndex].History += "0"; 
             if (IsTest)
                 txtWord.Visible = true;
             else
@@ -57,14 +58,21 @@ namespace NewWord.Windows.TabControls
         private async void BtnYes_Click(object sender, EventArgs e)
         {
             if (IsTest)
+            {
                 txtWord.Visible = true;
+                CurrentBook.WordCardList[WordIndex].History += "2";
+            }
             else
+            {
                 lblHidden.Visible = true;
+                CurrentBook.WordCardList[WordIndex].History += "1";
+            }
             btnYes.Visible = false;
             btnNo.Visible = false;
             lblNext.Visible = false;
             lblPrevious.Visible = false;
             CurrentBook.WordCardList[WordIndex].Remember = true;
+
             if (IsTest)
                 await Task.Delay(1000);
             else
@@ -85,7 +93,7 @@ namespace NewWord.Windows.TabControls
 
         private void TxtWord_Click(object sender, EventArgs e)
         {
-            EditWordEvent?.Invoke(this, null);
+            EditWordEvent?.Invoke(new TabTransferDataModel(CurrentBook,WordIndex,"Card"), null);
         }
         private void LblPrevious_Click(object sender, EventArgs e)
         {
@@ -146,10 +154,7 @@ namespace NewWord.Windows.TabControls
             lblPrevious.Visible = WordIndex != 0;
             lblCount.Text = CurrentBook.WordCardList[WordIndex].Count.ToString();
         }
-        private void TheEnd()
-        {
-           
-        }
+
         private void NoNewWord()
         {
             btnNo.Visible = false;
@@ -158,23 +163,16 @@ namespace NewWord.Windows.TabControls
             lblIndex.Visible = false;
             txtWord.Text = Constants.FormText.NoWord;
         }
-        private void CardBeginning()
-        {
-            WordIndex = 0;
-            ShowWordCard();
-        }
 
         public void CardInitialization(object sender, EventArgs e)
         {
             if (sender != null)
             {
-                var currentBook = (WordBook) sender;
-                CurrentBook = currentBook;
+                var currentBook = (TabTransferDataModel) sender;
+                CurrentBook = currentBook.CurrentBook;
                 WordIndex = 0;
                 ShowWordCard();
             }
-           
-            
         }
 
         public void CardLoadAgain(object sender, EventArgs e)
@@ -190,9 +188,9 @@ namespace NewWord.Windows.TabControls
 
         public void UpdateOneWord(object sender, EventArgs e)
         {
-            if (sender != null)
+            var senderData = (TabTransferDataModel) sender;
+            if (senderData.SenderTabName =="Update")
             {
-                var senderData = (TabTransferDataModel)sender;
                 CurrentBook.WordCardList[WordIndex].Word = senderData.CurrentBook.WordCardList[senderData.RunningIndex].Word;
                 CurrentBook.WordCardList[WordIndex].Meaning = senderData.CurrentBook.WordCardList[senderData.RunningIndex].Meaning;
                 CurrentBook.WordCardList[WordIndex].Difficulty = senderData.CurrentBook.WordCardList[senderData.RunningIndex].Difficulty;
@@ -201,7 +199,5 @@ namespace NewWord.Windows.TabControls
         }
 
         #endregion
-
-        
     }
 }

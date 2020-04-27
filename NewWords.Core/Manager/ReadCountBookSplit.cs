@@ -24,6 +24,7 @@ namespace NewWords.Core.Manager
         public void SplitWordToBooks()
         {
             var allWords = _fileManager.GetWordList(Constants.Book.AllWordFilePath);
+
             var word10 = allWords.Where(x => x.Count <= 10).Select(x => x).ToList();
             var word20 = allWords.Where(x => x.Count <= 20 && x.Count > 10 ).Select(x => x).ToList();
             var word30 = allWords.Where(x => x.Count <= 30 && x.Count > 20).ToList();

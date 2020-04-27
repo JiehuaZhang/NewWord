@@ -21,6 +21,8 @@ namespace NewWord.Windows.TabControls
         public WordBook CurrentBook { get; set; }  = new WordBook(null, null ,null);
         private readonly FileManager _fileManager;
         private bool _IsBegining;
+
+        private TreeNode _treeNode;
         public BooksTab(FileManager fileManager)
         {
             _fileManager = fileManager;
@@ -31,7 +33,7 @@ namespace NewWord.Windows.TabControls
         {
             GetAllBooks();
         }
-        private void GetAllBooks()
+        public void GetAllBooks()
         {
             var files = _fileManager.GetFiles();
             List<TreeNode> nodeList = new List<TreeNode>();
@@ -50,9 +52,9 @@ namespace NewWord.Windows.TabControls
                     _IsBegining = true;
                 }
             }
-
-            var treeNode = new TreeNode("Books", nodeList.ToArray());
-            treeBooks.Nodes.Add(treeNode);
+            treeBooks.Nodes.Clear();
+            _treeNode = new TreeNode("Books", nodeList.ToArray());
+            treeBooks.Nodes.Add(_treeNode);
             treeBooks.ExpandAll();
 
         }

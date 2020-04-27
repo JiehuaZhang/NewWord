@@ -21,12 +21,13 @@ namespace NewWords.Core.Manager
         public void SplitWordToBooks()
         {
             var allWords = _fileManager.GetWordList(Constants.Book.AllWordFilePath);
-            var word0 = allWords.Where(x => x.Difficulty == 0).Select(x => x).ToList();
-            var word1 = allWords.Where(x => x.Difficulty == 1).Select(x => x).ToList();
-            var word2 = allWords.Where(x => x.Difficulty == 2).Select(x => x).ToList();
-            var word3 = allWords.Where(x => x.Difficulty == 3).Select(x => x).ToList();
-            var word4 = allWords.Where(x => x.Difficulty == 4).Select(x => x).ToList();
-            var word5 = allWords.Where(x => x.Difficulty == 5).Select(x => x).ToList();
+            var word0 = allWords.Where(x => x.Difficulty == 0 && !x.IsFamiliar).Select(x => x).ToList();
+            var word1 = allWords.Where(x => x.Difficulty == 1 && !x.IsFamiliar).Select(x => x).ToList();
+            var word2 = allWords.Where(x => x.Difficulty == 2 && !x.IsFamiliar).Select(x => x).ToList();
+            var word3 = allWords.Where(x => x.Difficulty == 3 && !x.IsFamiliar).Select(x => x).ToList();
+            var word4 = allWords.Where(x => x.Difficulty == 4 && !x.IsFamiliar).Select(x => x).ToList();
+            var word5 = allWords.Where(x => x.Difficulty == 5 && !x.IsFamiliar).Select(x => x).ToList();
+            var familiarWord = allWords.Where(x => x.IsFamiliar).Select(x => x).ToList();
 
             _fileManager.DeleteAllFilesInFolder(new DirectoryInfo(Constants.Book.BookPath));
 
@@ -36,6 +37,7 @@ namespace NewWords.Core.Manager
             var word3Books = _wordsManager.SplitWordToBooks(word3, "3");
             var word4Books = _wordsManager.SplitWordToBooks(word4, "4");
             var word5Books = _wordsManager.SplitWordToBooks(word5, "5");
+            var familiarBook = _wordsManager.SplitWordToBooks(familiarWord, "familiar");
 
             _fileManager.SaveBook(word0Books);
             _fileManager.SaveBook(word1Books);
@@ -43,6 +45,7 @@ namespace NewWords.Core.Manager
             _fileManager.SaveBook(word3Books);
             _fileManager.SaveBook(word4Books);
             _fileManager.SaveBook(word5Books);
+            _fileManager.SaveBook(familiarBook);
 
         }
     }

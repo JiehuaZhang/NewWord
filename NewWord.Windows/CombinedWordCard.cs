@@ -297,7 +297,7 @@ namespace NewWord.Windows
         }
         private void BtnSplitWords_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(_currentBook) && _words.Count>0)
+            if(!string.IsNullOrEmpty(_currentBook) && _words.Count>0)
                 _fileManager.SaveJsonToFile(Constants.Book.BookPath + _currentBook, _words.ToJsonString());
             _fileManager.MergeWordToAll();
             _readCountBookSplit.SplitWordToBooks();

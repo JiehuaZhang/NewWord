@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NewWord.Windows.Model;
 using NewWords.Core;
 using NewWords.Core.Manager;
 using NewWords.Core.Model;
@@ -17,6 +18,7 @@ namespace NewWord.Windows.TabControls
     {
 
         public event EventHandler UpdateWordEvent;
+        public event EventHandler CancelEvent;
 
         public WordBook CurrentBook { get; set; } = null;
         public int EditWordIndex { get; set; }
@@ -51,7 +53,7 @@ namespace NewWord.Windows.TabControls
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            UpdateWordEvent?.Invoke(null, null);
+            CancelEvent?.Invoke(new TabTransferDataModel("Cancel"), null);
         }
 
         private void BtnUpdate_Click(object sender, EventArgs e)
@@ -59,7 +61,7 @@ namespace NewWord.Windows.TabControls
             CurrentBook.WordCardList[EditWordIndex].Word = txtNewWord.Text;
             CurrentBook.WordCardList[EditWordIndex].Meaning = txtMeaning.Text;
             CurrentBook.WordCardList[EditWordIndex].Difficulty = (int)numDifficulty.Value;
-            UpdateWordEvent?.Invoke(CurrentBook.WordCardList[EditWordIndex], null);
+            UpdateWordEvent?.Invoke(new TabTransferDataModel(CurrentBook,EditWordIndex,"Update"), null);
             EmptyForm();
         }
         private void Difficulty_OnKeyPress(object sender, KeyPressEventArgs e)

@@ -17,17 +17,19 @@ namespace NewWord.Windows.TabControls
 {
     public partial class WordControlTab : UserControl
     {
-        public event EventHandler LoadNewBookToCard;
+        public event EventHandler LoadNewBookToCardEvent;
 
         private readonly FileManager _fileManager;
         private readonly ReadCountBookSplit _readCountBookSplit;
+        private readonly DifficultyBookSplit _difficultyBookSplit;
 
         public WordBook CurrentBook { get; set; }
 
-        public WordControlTab(FileManager fileManager, ReadCountBookSplit readCountBookSplit)
+        public WordControlTab(FileManager fileManager, ReadCountBookSplit readCountBookSplit, DifficultyBookSplit difficultyBookSplit)
         {
             _fileManager = fileManager;
             _readCountBookSplit = readCountBookSplit;
+            _difficultyBookSplit = difficultyBookSplit;
             InitializeComponent();
         }
 
@@ -54,7 +56,7 @@ namespace NewWord.Windows.TabControls
             {
                 File.AppendAllText(rememberWordFilePath, rememberWordsString);
                 CurrentBook.WordCardList = _fileManager.GetWordList(CurrentBook.BookPath);
-                LoadNewBookToCard?.Invoke(new TabTransferDataModel(CurrentBook,"WordControl"), null);
+                LoadNewBookToCardEvent?.Invoke(new TabTransferDataModel(CurrentBook,"WordControl"), null);
                 lblArrange1.Visible = true;
                 lblArrange1.Text = Constants.BuildArrangeText(Constants.FormText.TaskCompleteText);
             }
@@ -67,32 +69,52 @@ namespace NewWord.Windows.TabControls
 
         private void BtnSplitWords_Click(object sender, EventArgs e)
         {
-            //if (string.IsNullOrEmpty(_currentBook) && _words.Count > 0)
-            //    _fileManager.SaveJsonToFile(Constants.Book.BookPath + _currentBook, _words.ToJsonString());
-            //_fileManager.MergeWordToAll();
-            //_readCountBookSplit.SplitWordToBooks();
+            if (CurrentBook != null && CurrentBook.WordCardList.Count>0 )
+                _fileManager.SaveJsonToFile(Constants.Book.BookPath + CurrentBook.BookName , CurrentBook.WordCardJsonString);
+            _fileManager.MergeWordToAll();
+            _readCountBookSplit.SplitWordToBooks();
 
-            //lblSplit.Text = Constants.BuildArrangeText(Constants.FormText.TaskCompleteText);
-            //lblSplit.Visible = true;
+            lblSplit.Text = Constants.BuildArrangeText(Constants.FormText.TaskCompleteText);
+            lblSplit.Visible = true;
 
-            //if (File.Exists(Constants.Book.BookPath + _currentBook))
-            //{
-            //    _words = _fileManager.GetWordList(Constants.Book.BookPath + _currentBook);
-            //}
-            //else
-            //{
-            //    var files = _fileManager.GetFiles();
-            //    _currentBook = files.Length > 0 ? files[0] : string.Empty;
-            //    _words = string.IsNullOrEmpty(_currentBook)
-            //        ? new List<NewWords.Core.Model.WordCard>()
-            //        : _fileManager.GetWordList(Constants.Book.BookPath + files[0]);
-            //}
-            //CardBeginning();
+            if (File.Exists(Constants.Book.BookPath + CurrentBook.BookName))
+            {
+                CurrentBook.WordCardList = _fileManager.GetWordList(Constants.Book.BookPath + CurrentBook.BookName);
+            }
+            else
+            {
+                var files = _fileManager.GetFiles();
+                CurrentBook.BookName = files.Length > 0 ? files[0] : string.Empty;
+                CurrentBook.WordCardList = string.IsNullOrEmpty(CurrentBook.BookName)
+                    ? new List<NewWords.Core.Model.WordCard>()
+                    : _fileManager.GetWordList(Constants.Book.BookPath + files[0]);
+            }
+            LoadNewBookToCardEvent?.Invoke(new TabTransferDataModel(CurrentBook,0,"SplitBooks"),null );
         }
 
         private void BtnSplitByDifficulty_Click(object sender, EventArgs e)
         {
+            if (CurrentBook != null && CurrentBook.WordCardList.Count > 0)
+                _fileManager.SaveJsonToFile(Constants.Book.BookPath + CurrentBook.BookName, CurrentBook.WordCardJsonString);
+            _fileManager.MergeWordToAll();
+            _difficultyBookSplit.SplitWordToBooks();
 
+            lblSplit.Text = Constants.BuildArrangeText(Constants.FormText.TaskCompleteText);
+            lblSplit.Visible = true;
+
+            if (File.Exists(Constants.Book.BookPath + CurrentBook.BookName))
+            {
+                CurrentBook.WordCardList = _fileManager.GetWordList(Constants.Book.BookPath + CurrentBook.BookName);
+            }
+            else
+            {
+                var files = _fileManager.GetFiles();
+                CurrentBook.BookName = files.Length > 0 ? files[0] : string.Empty;
+                CurrentBook.WordCardList = string.IsNullOrEmpty(CurrentBook.BookName)
+                    ? new List<NewWords.Core.Model.WordCard>()
+                    : _fileManager.GetWordList(Constants.Book.BookPath + files[0]);
+            }
+            LoadNewBookToCardEvent?.Invoke(new TabTransferDataModel(CurrentBook, 0, "SplitBooks"), null);
         }
     }
 }

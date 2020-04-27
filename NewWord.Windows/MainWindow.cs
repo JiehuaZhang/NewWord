@@ -11,6 +11,7 @@ using NewWord.Windows.Model;
 using NewWord.Windows.TabControls;
 using NewWords.Core;
 using NewWords.Core.Manager;
+using NewWords.Core.Model;
 
 namespace NewWord.Windows
 {
@@ -22,13 +23,13 @@ namespace NewWord.Windows
         private static readonly WordsManager _wordsManager = new WordsManager();
         private static readonly WordCardManager _wordCardManager = new WordCardManager(_fileManager);
 
-        private readonly DifficultyBookSplit _difficultyBookSplit = new DifficultyBookSplit(_fileManager, _wordsManager);
-        private readonly ReadCountBookSplit _readCountBookSplit = new ReadCountBookSplit(_fileManager, _wordsManager);
+        private static readonly DifficultyBookSplit _difficultyBookSplit = new DifficultyBookSplit(_fileManager, _wordsManager);
+        private static readonly ReadCountBookSplit _readCountBookSplit = new ReadCountBookSplit(_fileManager, _wordsManager);
 
         private CardTab _cardTab = new CardTab(_fileManager);
         private CardEndTab _cardEndTab = new CardEndTab();
         private WordTab _wordTab = new WordTab(_wordCardManager);
-        private WordControlTab _wordControlTab = new WordControlTab();
+        private WordControlTab _wordControlTab = new WordControlTab(_fileManager, _readCountBookSplit, _difficultyBookSplit);
         private BooksTab _booksTab = new BooksTab(_fileManager);
 
         public MainWindow()
@@ -42,14 +43,18 @@ namespace NewWord.Windows
 
             _wordTab.UpdateWordEvent += _cardTab.UpdateOneWord;
             _wordTab.UpdateWordEvent += LoadAndTurnToTabCard_Event;
+            _wordTab.CancelEvent += LoadAndTurnToTabCard_Event;
 
             _cardEndTab.TestModeEvent += _cardTab.CardLoadAgain;
             _cardEndTab.TestModeEvent += LoadTabCard_Event;
 
+            _wordControlTab.LoadNewBookToCardEvent += _cardTab.CardLoadAgain;
+            _wordControlTab.LoadNewBookToCardEvent += LoadTabCard_Event;
 
 
             _booksTab.ChooseBookEvent += LoadAndTurnToTabCard_Event;
             _booksTab.InitializeCardEvent += _cardTab.CardInitialization;
+            _booksTab.InitializeCardEvent += UpdateCurrentBook_Event;
         }
 
         private void Window_Load(object sender, EventArgs e)
@@ -93,10 +98,16 @@ namespace NewWord.Windows
 
         private void LoadAndTurnToTabCard_Event(object sender, EventArgs e)
         {
-            _cardTab.CurrentBook = _booksTab.CurrentBook;
-            _cardTab.IsTest = _cardEndTab.IsTest;
-            tabCard.Controls.Clear();
-            tabCard.Controls.Add(_cardTab);
+            var transferData = (TabTransferDataModel) sender;
+            if (transferData.SenderTabName == "Books")
+            {
+                //_wordTab.CurrentBook = _booksTab.CurrentBook;
+                //_wordControlTab.CurrentBook = _booksTab.CurrentBook;
+                //_cardTab.CurrentBook = _booksTab.CurrentBook;
+                UpdateCurrentBook(transferData.CurrentBook);
+                tabCard.Controls.Clear();
+                tabCard.Controls.Add(_cardTab);
+            }
             tabControls.SelectedTab = tabCard;
         }
 
@@ -104,6 +115,24 @@ namespace NewWord.Windows
         {
             tabCard.Controls.Clear();
             tabCard.Controls.Add(_cardTab);
+        }
+
+        private void UpdateCurrentBook_Event(object sender, EventArgs e)
+        {
+            var transferData = (TabTransferDataModel)sender;
+            UpdateCurrentBook(transferData.CurrentBook);
+        }
+
+        private void UpdateCurrentBook(WordBook newCurrentBook)
+        {
+            _wordTab.CurrentBook = newCurrentBook;
+            _wordControlTab.CurrentBook = newCurrentBook;
+            _cardTab.CurrentBook = newCurrentBook;
+        }
+
+        private void BookList_Fresh(object sender, EventArgs e)
+        {
+            _booksTab.GetAllBooks();
         }
     }
 }

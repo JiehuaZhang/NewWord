@@ -63,7 +63,7 @@
             this.tabAdd.Location = new System.Drawing.Point(4, 22);
             this.tabAdd.Name = "tabAdd";
             this.tabAdd.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAdd.Size = new System.Drawing.Size(255, 184);
+            this.tabAdd.Size = new System.Drawing.Size(255, 187);
             this.tabAdd.TabIndex = 1;
             this.tabAdd.Text = "New";
             this.tabAdd.UseVisualStyleBackColor = true;
@@ -73,7 +73,7 @@
             this.tabWordControl.Location = new System.Drawing.Point(4, 22);
             this.tabWordControl.Name = "tabWordControl";
             this.tabWordControl.Padding = new System.Windows.Forms.Padding(3);
-            this.tabWordControl.Size = new System.Drawing.Size(255, 184);
+            this.tabWordControl.Size = new System.Drawing.Size(255, 187);
             this.tabWordControl.TabIndex = 2;
             this.tabWordControl.Text = "Control";
             this.tabWordControl.UseVisualStyleBackColor = true;
@@ -83,10 +83,11 @@
             this.tabBooks.Location = new System.Drawing.Point(4, 22);
             this.tabBooks.Name = "tabBooks";
             this.tabBooks.Padding = new System.Windows.Forms.Padding(3);
-            this.tabBooks.Size = new System.Drawing.Size(255, 184);
+            this.tabBooks.Size = new System.Drawing.Size(255, 187);
             this.tabBooks.TabIndex = 3;
             this.tabBooks.Text = "Books";
             this.tabBooks.UseVisualStyleBackColor = true;
+            this.tabBooks.Enter += new System.EventHandler(this.BookList_Fresh);
             // 
             // MainWindow
             // 
